@@ -1,3 +1,6 @@
+// Load environment variables from .env file FIRST
+require('dotenv').config();
+
 const NewmanRunner = require('./lib/newman-runner');
 const ReportGenerator = require('./lib/report-generator');
 const NotificationService = require('./lib/notification-service');
@@ -6,9 +9,6 @@ const nodemailer = require('nodemailer');
 const fs = require('fs');
 const path = require('path');
 const { getConfig } = require('./config/config');
-
-// Load environment variables from .env file
-require('dotenv').config();
 
 class EnhancedNewmanRunner {
   constructor() {
@@ -81,7 +81,7 @@ class EnhancedNewmanRunner {
     }
 
     try {
-      const transporter = nodemailer.createTransporter({
+      const transporter = nodemailer.createTransport({
         service: this.config.email.service,
         auth: this.config.email.auth
       });
@@ -246,7 +246,7 @@ class EnhancedNewmanRunner {
   async sendFailureNotification(error) {
     try {
       if (this.config.email.auth.user && this.config.email.auth.pass) {
-        const transporter = nodemailer.createTransporter({
+        const transporter = nodemailer.createTransport({
           service: this.config.email.service,
           auth: this.config.email.auth
         });
