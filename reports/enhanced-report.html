@@ -1,0 +1,405 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Enhanced Newman Test Report</title>
+  <style>
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; background: #f5f7fa; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 10px; margin-bottom: 20px; }
+    .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 20px; }
+    .metric-card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    .metric-value { font-size: 2em; font-weight: bold; margin-bottom: 5px; }
+    .metric-label { color: #666; font-size: 0.9em; }
+    .success { color: #28a745; }
+    .warning { color: #ffc107; }
+    .danger { color: #dc3545; }
+    .trend-up::after { content: ' ↗️'; }
+    .trend-down::after { content: ' ↘️'; }
+    .chart-container { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
+    .execution-table { width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    .execution-table th, .execution-table td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
+    .execution-table th { background: #f8f9fa; font-weight: 600; }
+    .status-pass { color: #28a745; font-weight: bold; }
+    .status-fail { color: #dc3545; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🧪 Enhanced Newman Test Report</h1>
+      <p>Generated on 25/11/2025, 4:08:54 pm | Duration: 63.21s</p>
+    </div>
+
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-value success">100.00%</div>
+        <div class="metric-label">Success Rate</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">4</div>
+        <div class="metric-label">Total Assertions</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value success">0</div>
+        <div class="metric-label">Failed Assertions</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">44</div>
+        <div class="metric-label">Total Requests</div>
+      </div>
+    </div>
+
+    
+    <div class="chart-container">
+      <h3>📈 Trend Analysis</h3>
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-value danger trend-down">100%</div>
+          <div class="metric-label">Current vs Avg (60.00%)</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value">63.21s</div>
+          <div class="metric-label">Duration vs Avg (36.46s)</div>
+        </div>
+      </div>
+      <div style="margin-top: 15px;">
+        <span style="display: inline-block; margin: 5px; padding: 5px 10px; background: #e9ecef; border-radius: 15px; font-size: 0.9em;">📈 Above average performance</span><span style="display: inline-block; margin: 5px; padding: 5px 10px; background: #e9ecef; border-radius: 15px; font-size: 0.9em;">🎉 All tests passed!</span>
+      </div>
+    </div>
+    
+
+    <div class="chart-container">
+      <h3>🔍 Request Details</h3>
+      <table class="execution-table">
+        <thead>
+          <tr>
+            <th>Request</th>
+            <th>Response Time</th>
+            <th>Status Code</th>
+            <th>Assertions</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+            <tr>
+              <td>JWT</td>
+              <td>1153ms</td>
+              <td>200</td>
+              <td>1/1</td>
+              <td class="status-pass">Pass</td>
+            </tr>
+            <tr>
+              <td>Business Create</td>
+              <td>1185ms</td>
+              <td>200</td>
+              <td>1/1</td>
+              <td class="status-pass">Pass</td>
+            </tr>
+            <tr>
+              <td>RequestByUrl - Request by default business</td>
+              <td>545ms</td>
+              <td>200</td>
+              <td>0/0</td>
+              <td class="status-pass">Pass</td>
+            </tr>
+            <tr>
+              <td>RequestByUrl - Request by new business id</td>
+              <td>1383ms</td>
+              <td>200</td>
+              <td>0/0</td>
+              <td class="status-pass">Pass</td>
+            </tr>
+            <tr>
+              <td>RequestByUrl - Request by requester as null</td>
+              <td>465ms</td>
+              <td>200</td>
+              <td>0/0</td>
+              <td class="status-pass">Pass</td>
+            </tr>
+            <tr>
+              <td>RequestByUrl - Request by requester as empty object</td>
+              <td>541ms</td>
+              <td>200</td>
+              <td>0/0</td>
+              <td class="status-pass">Pass</td>
+            </tr>
+            <tr>
+              <td>RequestByUrl - Request without 'requester' Object</td>
+              <td>552ms</td>
+              <td>200</td>
+              <td>0/0</td>
+              <td class="status-pass">Pass</td>
+            </tr>
+            <tr>
+              <td>RequestByUrl - Request with payeeref as null</td>
+              <td>1069ms</td>
+              <td>400</td>
+              <td>0/0</td>
+              <td class="status-pass">Pass</td>
+            </tr>
+            <tr>
+              <td>RequestByUrl - Request with name as null</td>
+              <td>490ms</td>
+              <td>200</td>
+              <td>0/0</td>
+              <td class="status-pass">Pass</td>
+            </tr>
+            <tr>
+              <td>RequestByUrl - Request with TINMatching as false</td>
+              <td>488ms</td>
+              <td>200</td>
+              <td>0/0</td>
+              <td class="status-pass">Pass</td>
+            </tr>
+            <tr>
+              <td>RequestByUrl - Request with TINMatching as true</td>
+              <td>509ms</td>
+              <td>200</td>
+              <td>0/0</td>
+              <td class="status-pass">Pass</td>
+            </tr>
+            <tr>
+              <td>RequestByUrl - Request with Recipient object as empty string</td>
+              <td>974ms</td>
+              <td>400</td>
+              <td>0/0</td>
+              <td class="status-pass">Pass</td>
+            </tr>
+            <tr>
+              <td>RequestByUrl - Request with customization object as null</td>
+              <td>841ms</td>
+              <td>200</td>
+              <td>0/0</td>
+              <td class="status-pass">Pass</td>
+            </tr>
+            <tr>
+              <td>RequestByUrl - Request without customization object</td>
+              <td>520ms</td>
+              <td>200</td>
+              <td>0/0</td>
+              <td class="status-pass">Pass</td>
+            </tr>
+            <tr>
+              <td>RequestByUrl - Request with BusinessLogoUrl as null</td>
+              <td>566ms</td>
+              <td>200</td>
+              <td>0/0</td>
+              <td class="status-pass">Pass</td>
+            </tr>
+            <tr>
+              <td>RequestByUrl - Request with Customization as empty string</td>
+              <td>800ms</td>
+              <td>200</td>
+              <td>0/0</td>
+              <td class="status-pass">Pass</td>
+            </tr>
+            <tr>
+              <td>RequestByUrl - Request with Recipient object as empty string</td>
+              <td>385ms</td>
+              <td>400</td>
+              <td>0/0</td>
+              <td class="status-pass">Pass</td>
+            </tr>
+            <tr>
+              <td>RequestByUrl - Request with logo position as null</td>
+              <td>649ms</td>
+              <td>200</td>
+              <td>0/0</td>
+              <td class="status-pass">Pass</td>
+            </tr>
+            <tr>
+              <td>RequestByUrl - Request with  Primary & SecondayColor as null</td>
+              <td>458ms</td>
+              <td>200</td>
+              <td>0/0</td>
+              <td class="status-pass">Pass</td>
+            </tr>
+            <tr>
+              <td>RequestByUrl - Request with  RedirectUrl as null</td>
+              <td>1129ms</td>
+              <td>400</td>
+              <td>0/0</td>
+              <td class="status-pass">Pass</td>
+            </tr>
+            <tr>
+              <td>RequestByUrl - Request with  RedirectUrl given</td>
+              <td>479ms</td>
+              <td>200</td>
+              <td>0/0</td>
+              <td class="status-pass">Pass</td>
+            </tr>
+            <tr>
+              <td>RequestByUrl - Request without Redirecturl object</td>
+              <td>1448ms</td>
+              <td>200</td>
+              <td>0/0</td>
+              <td class="status-pass">Pass</td>
+            </tr>
+            <tr>
+              <td>JWT</td>
+              <td>294ms</td>
+              <td>200</td>
+              <td>1/1</td>
+              <td class="status-pass">Pass</td>
+            </tr>
+            <tr>
+              <td>Business Create</td>
+              <td>1198ms</td>
+              <td>200</td>
+              <td>1/1</td>
+              <td class="status-pass">Pass</td>
+            </tr>
+            <tr>
+              <td>RequestByEmail - Request by default business</td>
+              <td>846ms</td>
+              <td>200</td>
+              <td>0/0</td>
+              <td class="status-pass">Pass</td>
+            </tr>
+            <tr>
+              <td>RequestByEmail - Request by new business id</td>
+              <td>1660ms</td>
+              <td>200</td>
+              <td>0/0</td>
+              <td class="status-pass">Pass</td>
+            </tr>
+            <tr>
+              <td>RequestByEmail - Request by requester as null</td>
+              <td>686ms</td>
+              <td>200</td>
+              <td>0/0</td>
+              <td class="status-pass">Pass</td>
+            </tr>
+            <tr>
+              <td>RequestByEmail - Request by requester as empty object</td>
+              <td>1234ms</td>
+              <td>200</td>
+              <td>0/0</td>
+              <td class="status-pass">Pass</td>
+            </tr>
+            <tr>
+              <td>RequestByEmail - Request without 'requester' Object</td>
+              <td>839ms</td>
+              <td>200</td>
+              <td>0/0</td>
+              <td class="status-pass">Pass</td>
+            </tr>
+            <tr>
+              <td>RequestByEmail - Request with payeeref as null</td>
+              <td>1472ms</td>
+              <td>200</td>
+              <td>0/0</td>
+              <td class="status-pass">Pass</td>
+            </tr>
+            <tr>
+              <td>RequestByEmail - Request with email as null</td>
+              <td>415ms</td>
+              <td>400</td>
+              <td>0/0</td>
+              <td class="status-pass">Pass</td>
+            </tr>
+            <tr>
+              <td>RequestByemail- Request with SubmissionManifest as null</td>
+              <td>659ms</td>
+              <td>200</td>
+              <td>0/0</td>
+              <td class="status-pass">Pass</td>
+            </tr>
+            <tr>
+              <td>RequestByEmail - Request with TINMatching as true</td>
+              <td>1417ms</td>
+              <td>200</td>
+              <td>0/0</td>
+              <td class="status-pass">Pass</td>
+            </tr>
+            <tr>
+              <td>RequestByEmail - Request with Recipient object as empty string</td>
+              <td>655ms</td>
+              <td>400</td>
+              <td>0/0</td>
+              <td class="status-pass">Pass</td>
+            </tr>
+            <tr>
+              <td>RequestByEmail - Request with customization object as null</td>
+              <td>721ms</td>
+              <td>200</td>
+              <td>0/0</td>
+              <td class="status-pass">Pass</td>
+            </tr>
+            <tr>
+              <td>RequestByEmail - Request without customization object</td>
+              <td>752ms</td>
+              <td>200</td>
+              <td>0/0</td>
+              <td class="status-pass">Pass</td>
+            </tr>
+            <tr>
+              <td>RequestByEmail - Request with BusinessLogoUrl as null</td>
+              <td>1144ms</td>
+              <td>200</td>
+              <td>0/0</td>
+              <td class="status-pass">Pass</td>
+            </tr>
+            <tr>
+              <td>RequestByEmail- Request with Customization as empty string</td>
+              <td>1275ms</td>
+              <td>200</td>
+              <td>0/0</td>
+              <td class="status-pass">Pass</td>
+            </tr>
+            <tr>
+              <td>RequestByEmail - Request with Recipient object as empty string</td>
+              <td>388ms</td>
+              <td>400</td>
+              <td>0/0</td>
+              <td class="status-pass">Pass</td>
+            </tr>
+            <tr>
+              <td>RequestByEmail - Request with logo position as null</td>
+              <td>1202ms</td>
+              <td>200</td>
+              <td>0/0</td>
+              <td class="status-pass">Pass</td>
+            </tr>
+            <tr>
+              <td>RequestByEmail - Request with  Primary & SecondayColor as null</td>
+              <td>833ms</td>
+              <td>200</td>
+              <td>0/0</td>
+              <td class="status-pass">Pass</td>
+            </tr>
+            <tr>
+              <td>RequestByEmail - Request with  WebhookRef as null</td>
+              <td>1039ms</td>
+              <td>200</td>
+              <td>0/0</td>
+              <td class="status-pass">Pass</td>
+            </tr>
+            <tr>
+              <td>RequestByEmail - Request with  Webhook is invalid</td>
+              <td>1147ms</td>
+              <td>400</td>
+              <td>0/0</td>
+              <td class="status-pass">Pass</td>
+            </tr>
+            <tr>
+              <td>RequestByEmail - Request without Redirecturl object</td>
+              <td>607ms</td>
+              <td>400</td>
+              <td>0/0</td>
+              <td class="status-pass">Pass</td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+
+    
+
+    <div style="text-align: center; margin-top: 30px; color: #666; font-size: 0.9em;">
+      <p>This is an automated report generated by Newman API Testing Framework</p>
+    </div>
+  </div>
+</body>
+</html>

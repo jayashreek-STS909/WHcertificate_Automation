@@ -1,0 +1,2372 @@
+[
+  {
+    "timestamp": "2025-11-25T09:40:18.509Z",
+    "duration": 3200,
+    "stats": {
+      "iterations": 1,
+      "requests": {
+        "total": 2,
+        "failed": 0
+      },
+      "assertions": {
+        "total": 1,
+        "failed": 1
+      },
+      "testScripts": {
+        "total": 1,
+        "failed": 1
+      }
+    },
+    "successRate": "0.00",
+    "failures": [
+      {
+        "error": {
+          "name": "AssertionError",
+          "index": 0,
+          "test": "Status code is 200",
+          "message": "expected false to be truthy",
+          "stack": "AssertionError: expected false to be truthy\n   at Object.eval sandbox-script.js:1:1)",
+          "checksum": "819664946a21b16d41a3731a7935b190",
+          "id": "b1c7f2ed-bd4f-4425-9d50-3db4bf999b62",
+          "timestamp": 1764063616391,
+          "stacktrace": [
+            {
+              "fileName": "sandbox-script.js",
+              "lineNumber": 1,
+              "functionName": "Object.eval",
+              "typeName": "Object",
+              "methodName": "eval",
+              "columnNumber": 1,
+              "native": false
+            }
+          ]
+        },
+        "at": "assertion:0 in test-script",
+        "source": {
+          "id": "73e2b189-b421-4a28-b938-792cf9eb8838",
+          "name": "JWT",
+          "request": {
+            "url": {
+              "protocol": "http",
+              "path": [
+                "v2",
+                "tbsauth"
+              ],
+              "host": [
+                "testoauth",
+                "expressauth",
+                "net"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Authentication",
+                "value": "{{auth}}"
+              }
+            ],
+            "method": "GET",
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "3bbafe34-24d8-42f3-b858-3c22fdb8514b",
+                "type": "text/javascript",
+                "packages": {},
+                "exec": [
+                  "tests[\"Status code is 200\"]=responseCode.code===200;\r",
+                  "var responseJSON;\r",
+                  "responseJSON=JSON.parse(responseBody);\r",
+                  "pm.environment.set(\"accesstoken\", responseJSON[\"AccessToken\"]);"
+                ],
+                "_lastExecutionId": "6ad22d61-8b4e-44ef-acd5-0d4f477b8a57"
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "08bb1c5e-bf36-407f-ad98-b01805454845",
+                "type": "text/javascript",
+                "packages": {},
+                "exec": [
+                  "//Base64 URL encoding\r",
+                  "function base64url(source) {\r",
+                  "  // Encode in classical base64\r",
+                  "  encodedSource = CryptoJS.enc.Base64.stringify(source);\r",
+                  "\r",
+                  "  // Remove padding equal characters\r",
+                  "  encodedSource = encodedSource.replace(/=+$/, '');\r",
+                  "\r",
+                  "  // Replace characters according to base64url specifications\r",
+                  "  encodedSource = encodedSource.replace(/\\+/g, '-');\r",
+                  "  encodedSource = encodedSource.replace(/\\//g, '_');\r",
+                  "\r",
+                  "  return encodedSource;\r",
+                  "};\r",
+                  "\r",
+                  "//To generate Header and Payload\r",
+                  "\r",
+                  "var header = {\r",
+                  "  \"alg\": \"HS256\",\r",
+                  "  \"typ\": \"JWT\"\r",
+                  "};\r",
+                  "\r",
+                  "var stringifiedHeader = CryptoJS.enc.Utf8.parse(JSON.stringify(header));\r",
+                  "var encodedHeader = base64url(stringifiedHeader);\r",
+                  "\r",
+                  "//Unix epoch time formula\r",
+                  "var time = Math.floor(new Date().getTime()/1000.0); \r",
+                  "\r",
+                  "var payloaddata = {\r",
+                  "  \"iss\": pm.environment.get('clientid'),\r",
+                  "  \"sub\": pm.environment.get('clientid'),\r",
+                  "  \"aud\": pm.environment.get('usertoken'),\r",
+                  "  \"iat\": time-14\r",
+                  "};\r",
+                  "console.log(time);\r",
+                  "\r",
+                  "var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(payloaddata));\r",
+                  "var encodedPayloadData = base64url(stringifiedData);\r",
+                  "\r",
+                  "var headerPayload = encodedHeader + \".\" + encodedPayloadData;\r",
+                  "\r",
+                  "//Client secret ID - To generate JWS\r",
+                  "\r",
+                  "var secretID = pm.environment.get('secret');\r",
+                  "\r",
+                  "var signature = CryptoJS.HmacSHA256(headerPayload, secretID);\r",
+                  "signature = base64url(signature);\r",
+                  "\r",
+                  "var jws = headerPayload + \".\" + signature;\r",
+                  "\r",
+                  "console.log(jws);\r",
+                  "\r",
+                  "pm.environment.set(\"auth\", jws);\r",
+                  "\r",
+                  ""
+                ],
+                "_lastExecutionId": "5d13814a-9570-4263-9e75-2ba36283f106"
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        "parent": {
+          "_": {
+            "postman_id": "a01f2093-8fa4-4b15-be4c-099447705715",
+            "exporter_id": "43003067"
+          },
+          "item": [
+            {
+              "id": "73e2b189-b421-4a28-b938-792cf9eb8838",
+              "name": "JWT",
+              "request": {
+                "url": {
+                  "protocol": "http",
+                  "path": [
+                    "v2",
+                    "tbsauth"
+                  ],
+                  "host": [
+                    "testoauth",
+                    "expressauth",
+                    "net"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Authentication",
+                    "value": "{{auth}}"
+                  }
+                ],
+                "method": "GET",
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "3bbafe34-24d8-42f3-b858-3c22fdb8514b",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "exec": [
+                      "tests[\"Status code is 200\"]=responseCode.code===200;\r",
+                      "var responseJSON;\r",
+                      "responseJSON=JSON.parse(responseBody);\r",
+                      "pm.environment.set(\"accesstoken\", responseJSON[\"AccessToken\"]);"
+                    ],
+                    "_lastExecutionId": "6ad22d61-8b4e-44ef-acd5-0d4f477b8a57"
+                  }
+                },
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "id": "08bb1c5e-bf36-407f-ad98-b01805454845",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "exec": [
+                      "//Base64 URL encoding\r",
+                      "function base64url(source) {\r",
+                      "  // Encode in classical base64\r",
+                      "  encodedSource = CryptoJS.enc.Base64.stringify(source);\r",
+                      "\r",
+                      "  // Remove padding equal characters\r",
+                      "  encodedSource = encodedSource.replace(/=+$/, '');\r",
+                      "\r",
+                      "  // Replace characters according to base64url specifications\r",
+                      "  encodedSource = encodedSource.replace(/\\+/g, '-');\r",
+                      "  encodedSource = encodedSource.replace(/\\//g, '_');\r",
+                      "\r",
+                      "  return encodedSource;\r",
+                      "};\r",
+                      "\r",
+                      "//To generate Header and Payload\r",
+                      "\r",
+                      "var header = {\r",
+                      "  \"alg\": \"HS256\",\r",
+                      "  \"typ\": \"JWT\"\r",
+                      "};\r",
+                      "\r",
+                      "var stringifiedHeader = CryptoJS.enc.Utf8.parse(JSON.stringify(header));\r",
+                      "var encodedHeader = base64url(stringifiedHeader);\r",
+                      "\r",
+                      "//Unix epoch time formula\r",
+                      "var time = Math.floor(new Date().getTime()/1000.0); \r",
+                      "\r",
+                      "var payloaddata = {\r",
+                      "  \"iss\": pm.environment.get('clientid'),\r",
+                      "  \"sub\": pm.environment.get('clientid'),\r",
+                      "  \"aud\": pm.environment.get('usertoken'),\r",
+                      "  \"iat\": time-14\r",
+                      "};\r",
+                      "console.log(time);\r",
+                      "\r",
+                      "var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(payloaddata));\r",
+                      "var encodedPayloadData = base64url(stringifiedData);\r",
+                      "\r",
+                      "var headerPayload = encodedHeader + \".\" + encodedPayloadData;\r",
+                      "\r",
+                      "//Client secret ID - To generate JWS\r",
+                      "\r",
+                      "var secretID = pm.environment.get('secret');\r",
+                      "\r",
+                      "var signature = CryptoJS.HmacSHA256(headerPayload, secretID);\r",
+                      "signature = base64url(signature);\r",
+                      "\r",
+                      "var jws = headerPayload + \".\" + signature;\r",
+                      "\r",
+                      "console.log(jws);\r",
+                      "\r",
+                      "pm.environment.set(\"auth\", jws);\r",
+                      "\r",
+                      ""
+                    ],
+                    "_lastExecutionId": "5d13814a-9570-4263-9e75-2ba36283f106"
+                  }
+                }
+              ],
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              }
+            },
+            {
+              "id": "2f8a75bc-4110-40f3-b0e6-c8e3b9f43ba9",
+              "name": "Create",
+              "request": {
+                "url": {
+                  "protocol": "https",
+                  "path": [
+                    "v1.7.3",
+                    "Business",
+                    "Create"
+                  ],
+                  "host": [
+                    "testapi",
+                    "taxbandits",
+                    "com"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "{{accesstoken}}"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"BusinessNm\": \"{{$randomCompanyName}}\",\r\n    \"FirstNm\": null,\r\n    \"MiddleNm\": null,\r\n    \"LastNm\": null,\r\n    \"Suffix\": null,\r\n    \"PayerRef\": \"Union{{$randomInt}}\",\r\n    \"TradeNm\": \"Union Trades\",\r\n    \"IsDefaultBusiness\": true,\r\n    \"IsEIN\": false,   \r\n    \"EINorSSN\": \"{{randomEIN}}\",\r\n    \"Email\": \"james@sample.com\",\r\n    \"ContactNm\": \"James Smith\",\r\n    \"Phone\": \"6534567890\",\r\n    \"PhoneExtn\": \"123\",\r\n    \"Fax\": \"9834567890\",\r\n    \"BusinessType\": \"ESTE\",\r\n    \"SigningAuthority\": {\r\n        \"Name\": \"James Smith\",\r\n        \"Phone\": \"9934567890\",\r\n        \"BusinessMemberType\": \"ADMINISTRATOR\"\r\n    },\r\n    \"KindOfEmployer\": \"FEDERALGOVT\",\r\n    \"KindOfPayer\": \"REGULAR941\",\r\n    \"IsBusinessTerminated\": false,\r\n    \"Form1042SDetails\": {\r\n      \"WHAgtCh3Cd\": \"11\",\r\n      \"WHAgtCh4Cd\": \"16\",\r\n      \"WHAgtGIIN\": null,\r\n      \"FTIN\": \"12345\",\r\n      \"Country\": \"AL\"\r\n    },\r\n    \"IsForeign\": false,\r\n    \"USAddress\": {\r\n        \"Address1\": \"3576 AIRPORT WAY\",\r\n        \"Address2\": \"UNIT 9\",\r\n        \"City\": \"FAIRBANKS\",\r\n        \"State\": \"AK\",\r\n        \"ZipCd\": \"99709\"\r\n    },\r\n    \"ForeignAddress\": null,\r\n    \"ACADetails\": {\r\n      \"FirstName\": \"Kingston\",\r\n      \"MiddleName\": \"Walman\",\r\n      \"LastName\": \"ADMINRATOR\",\r\n      \"Suffix\": \"Jr\",\r\n      \"Phone\": \"8834578906\",\r\n      \"IsGovernmentalUnit\": true\r\n    }\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "id": "d788219b-2e18-4c9c-9679-bb1cbc6edd07",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "exec": [
+                      "// List of common valid EIN prefixes\r",
+                      "const einPrefixes = [10,12,13,14,16,20,21,22,23,25,27,30,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,98,99];\r",
+                      "\r",
+                      "// Randomly select prefix\r",
+                      "let prefix = einPrefixes[Math.floor(Math.random() * einPrefixes.length)];\r",
+                      "// Pad prefix if needed\r",
+                      "prefix = prefix.toString().padStart(2, '0');\r",
+                      "\r",
+                      "// Generate random 7 digits\r",
+                      "let body = '';\r",
+                      "for (let i = 0; i < 7; i++) {\r",
+                      "    body += Math.floor(Math.random() * 10);\r",
+                      "}\r",
+                      "\r",
+                      "// Combine for EIN\r",
+                      "let ein = prefix + body;\r",
+                      "\r",
+                      "// Save as environment variable\r",
+                      "pm.environment.set(\"randomEIN\", ein);\r",
+                      ""
+                    ],
+                    "_lastExecutionId": "292a7df6-a811-4cbd-95b0-eddb80692f23"
+                  }
+                }
+              ]
+            }
+          ],
+          "event": [],
+          "variable": [],
+          "info": {
+            "_postman_id": "a01f2093-8fa4-4b15-be4c-099447705715",
+            "name": "Newman Business create",
+            "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+          }
+        },
+        "cursor": {
+          "position": 0,
+          "iteration": 0,
+          "length": 2,
+          "cycles": 1,
+          "empty": false,
+          "eof": false,
+          "bof": true,
+          "cr": false,
+          "ref": "1b7bf6d9-f6f5-480a-b526-cb3393ad4ea5",
+          "httpRequestId": "bbe17a20-e89a-4841-a01b-409d84d0c492",
+          "scriptId": "3bbafe34-24d8-42f3-b858-3c22fdb8514b",
+          "execution": "6ad22d61-8b4e-44ef-acd5-0d4f477b8a57"
+        }
+      },
+      {
+        "error": {
+          "type": "Error",
+          "name": "JSONError",
+          "message": "Unexpected token '<' at 1:1\n<!doctype html>\n^",
+          "checksum": "ffed634f20bd2ea44dc96cf873b17b95",
+          "id": "b7b47c04-d0c8-48d4-9026-8897755d7560",
+          "timestamp": 1764063616407,
+          "stacktrace": []
+        },
+        "at": "test-script",
+        "source": {
+          "id": "73e2b189-b421-4a28-b938-792cf9eb8838",
+          "name": "JWT",
+          "request": {
+            "url": {
+              "protocol": "http",
+              "path": [
+                "v2",
+                "tbsauth"
+              ],
+              "host": [
+                "testoauth",
+                "expressauth",
+                "net"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Authentication",
+                "value": "{{auth}}"
+              }
+            ],
+            "method": "GET",
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "3bbafe34-24d8-42f3-b858-3c22fdb8514b",
+                "type": "text/javascript",
+                "packages": {},
+                "exec": [
+                  "tests[\"Status code is 200\"]=responseCode.code===200;\r",
+                  "var responseJSON;\r",
+                  "responseJSON=JSON.parse(responseBody);\r",
+                  "pm.environment.set(\"accesstoken\", responseJSON[\"AccessToken\"]);"
+                ],
+                "_lastExecutionId": "6ad22d61-8b4e-44ef-acd5-0d4f477b8a57"
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "08bb1c5e-bf36-407f-ad98-b01805454845",
+                "type": "text/javascript",
+                "packages": {},
+                "exec": [
+                  "//Base64 URL encoding\r",
+                  "function base64url(source) {\r",
+                  "  // Encode in classical base64\r",
+                  "  encodedSource = CryptoJS.enc.Base64.stringify(source);\r",
+                  "\r",
+                  "  // Remove padding equal characters\r",
+                  "  encodedSource = encodedSource.replace(/=+$/, '');\r",
+                  "\r",
+                  "  // Replace characters according to base64url specifications\r",
+                  "  encodedSource = encodedSource.replace(/\\+/g, '-');\r",
+                  "  encodedSource = encodedSource.replace(/\\//g, '_');\r",
+                  "\r",
+                  "  return encodedSource;\r",
+                  "};\r",
+                  "\r",
+                  "//To generate Header and Payload\r",
+                  "\r",
+                  "var header = {\r",
+                  "  \"alg\": \"HS256\",\r",
+                  "  \"typ\": \"JWT\"\r",
+                  "};\r",
+                  "\r",
+                  "var stringifiedHeader = CryptoJS.enc.Utf8.parse(JSON.stringify(header));\r",
+                  "var encodedHeader = base64url(stringifiedHeader);\r",
+                  "\r",
+                  "//Unix epoch time formula\r",
+                  "var time = Math.floor(new Date().getTime()/1000.0); \r",
+                  "\r",
+                  "var payloaddata = {\r",
+                  "  \"iss\": pm.environment.get('clientid'),\r",
+                  "  \"sub\": pm.environment.get('clientid'),\r",
+                  "  \"aud\": pm.environment.get('usertoken'),\r",
+                  "  \"iat\": time-14\r",
+                  "};\r",
+                  "console.log(time);\r",
+                  "\r",
+                  "var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(payloaddata));\r",
+                  "var encodedPayloadData = base64url(stringifiedData);\r",
+                  "\r",
+                  "var headerPayload = encodedHeader + \".\" + encodedPayloadData;\r",
+                  "\r",
+                  "//Client secret ID - To generate JWS\r",
+                  "\r",
+                  "var secretID = pm.environment.get('secret');\r",
+                  "\r",
+                  "var signature = CryptoJS.HmacSHA256(headerPayload, secretID);\r",
+                  "signature = base64url(signature);\r",
+                  "\r",
+                  "var jws = headerPayload + \".\" + signature;\r",
+                  "\r",
+                  "console.log(jws);\r",
+                  "\r",
+                  "pm.environment.set(\"auth\", jws);\r",
+                  "\r",
+                  ""
+                ],
+                "_lastExecutionId": "5d13814a-9570-4263-9e75-2ba36283f106"
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        "parent": {
+          "_": {
+            "postman_id": "a01f2093-8fa4-4b15-be4c-099447705715",
+            "exporter_id": "43003067"
+          },
+          "item": [
+            {
+              "id": "73e2b189-b421-4a28-b938-792cf9eb8838",
+              "name": "JWT",
+              "request": {
+                "url": {
+                  "protocol": "http",
+                  "path": [
+                    "v2",
+                    "tbsauth"
+                  ],
+                  "host": [
+                    "testoauth",
+                    "expressauth",
+                    "net"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Authentication",
+                    "value": "{{auth}}"
+                  }
+                ],
+                "method": "GET",
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "3bbafe34-24d8-42f3-b858-3c22fdb8514b",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "exec": [
+                      "tests[\"Status code is 200\"]=responseCode.code===200;\r",
+                      "var responseJSON;\r",
+                      "responseJSON=JSON.parse(responseBody);\r",
+                      "pm.environment.set(\"accesstoken\", responseJSON[\"AccessToken\"]);"
+                    ],
+                    "_lastExecutionId": "6ad22d61-8b4e-44ef-acd5-0d4f477b8a57"
+                  }
+                },
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "id": "08bb1c5e-bf36-407f-ad98-b01805454845",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "exec": [
+                      "//Base64 URL encoding\r",
+                      "function base64url(source) {\r",
+                      "  // Encode in classical base64\r",
+                      "  encodedSource = CryptoJS.enc.Base64.stringify(source);\r",
+                      "\r",
+                      "  // Remove padding equal characters\r",
+                      "  encodedSource = encodedSource.replace(/=+$/, '');\r",
+                      "\r",
+                      "  // Replace characters according to base64url specifications\r",
+                      "  encodedSource = encodedSource.replace(/\\+/g, '-');\r",
+                      "  encodedSource = encodedSource.replace(/\\//g, '_');\r",
+                      "\r",
+                      "  return encodedSource;\r",
+                      "};\r",
+                      "\r",
+                      "//To generate Header and Payload\r",
+                      "\r",
+                      "var header = {\r",
+                      "  \"alg\": \"HS256\",\r",
+                      "  \"typ\": \"JWT\"\r",
+                      "};\r",
+                      "\r",
+                      "var stringifiedHeader = CryptoJS.enc.Utf8.parse(JSON.stringify(header));\r",
+                      "var encodedHeader = base64url(stringifiedHeader);\r",
+                      "\r",
+                      "//Unix epoch time formula\r",
+                      "var time = Math.floor(new Date().getTime()/1000.0); \r",
+                      "\r",
+                      "var payloaddata = {\r",
+                      "  \"iss\": pm.environment.get('clientid'),\r",
+                      "  \"sub\": pm.environment.get('clientid'),\r",
+                      "  \"aud\": pm.environment.get('usertoken'),\r",
+                      "  \"iat\": time-14\r",
+                      "};\r",
+                      "console.log(time);\r",
+                      "\r",
+                      "var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(payloaddata));\r",
+                      "var encodedPayloadData = base64url(stringifiedData);\r",
+                      "\r",
+                      "var headerPayload = encodedHeader + \".\" + encodedPayloadData;\r",
+                      "\r",
+                      "//Client secret ID - To generate JWS\r",
+                      "\r",
+                      "var secretID = pm.environment.get('secret');\r",
+                      "\r",
+                      "var signature = CryptoJS.HmacSHA256(headerPayload, secretID);\r",
+                      "signature = base64url(signature);\r",
+                      "\r",
+                      "var jws = headerPayload + \".\" + signature;\r",
+                      "\r",
+                      "console.log(jws);\r",
+                      "\r",
+                      "pm.environment.set(\"auth\", jws);\r",
+                      "\r",
+                      ""
+                    ],
+                    "_lastExecutionId": "5d13814a-9570-4263-9e75-2ba36283f106"
+                  }
+                }
+              ],
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              }
+            },
+            {
+              "id": "2f8a75bc-4110-40f3-b0e6-c8e3b9f43ba9",
+              "name": "Create",
+              "request": {
+                "url": {
+                  "protocol": "https",
+                  "path": [
+                    "v1.7.3",
+                    "Business",
+                    "Create"
+                  ],
+                  "host": [
+                    "testapi",
+                    "taxbandits",
+                    "com"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "{{accesstoken}}"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"BusinessNm\": \"{{$randomCompanyName}}\",\r\n    \"FirstNm\": null,\r\n    \"MiddleNm\": null,\r\n    \"LastNm\": null,\r\n    \"Suffix\": null,\r\n    \"PayerRef\": \"Union{{$randomInt}}\",\r\n    \"TradeNm\": \"Union Trades\",\r\n    \"IsDefaultBusiness\": true,\r\n    \"IsEIN\": false,   \r\n    \"EINorSSN\": \"{{randomEIN}}\",\r\n    \"Email\": \"james@sample.com\",\r\n    \"ContactNm\": \"James Smith\",\r\n    \"Phone\": \"6534567890\",\r\n    \"PhoneExtn\": \"123\",\r\n    \"Fax\": \"9834567890\",\r\n    \"BusinessType\": \"ESTE\",\r\n    \"SigningAuthority\": {\r\n        \"Name\": \"James Smith\",\r\n        \"Phone\": \"9934567890\",\r\n        \"BusinessMemberType\": \"ADMINISTRATOR\"\r\n    },\r\n    \"KindOfEmployer\": \"FEDERALGOVT\",\r\n    \"KindOfPayer\": \"REGULAR941\",\r\n    \"IsBusinessTerminated\": false,\r\n    \"Form1042SDetails\": {\r\n      \"WHAgtCh3Cd\": \"11\",\r\n      \"WHAgtCh4Cd\": \"16\",\r\n      \"WHAgtGIIN\": null,\r\n      \"FTIN\": \"12345\",\r\n      \"Country\": \"AL\"\r\n    },\r\n    \"IsForeign\": false,\r\n    \"USAddress\": {\r\n        \"Address1\": \"3576 AIRPORT WAY\",\r\n        \"Address2\": \"UNIT 9\",\r\n        \"City\": \"FAIRBANKS\",\r\n        \"State\": \"AK\",\r\n        \"ZipCd\": \"99709\"\r\n    },\r\n    \"ForeignAddress\": null,\r\n    \"ACADetails\": {\r\n      \"FirstName\": \"Kingston\",\r\n      \"MiddleName\": \"Walman\",\r\n      \"LastName\": \"ADMINRATOR\",\r\n      \"Suffix\": \"Jr\",\r\n      \"Phone\": \"8834578906\",\r\n      \"IsGovernmentalUnit\": true\r\n    }\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "id": "d788219b-2e18-4c9c-9679-bb1cbc6edd07",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "exec": [
+                      "// List of common valid EIN prefixes\r",
+                      "const einPrefixes = [10,12,13,14,16,20,21,22,23,25,27,30,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,98,99];\r",
+                      "\r",
+                      "// Randomly select prefix\r",
+                      "let prefix = einPrefixes[Math.floor(Math.random() * einPrefixes.length)];\r",
+                      "// Pad prefix if needed\r",
+                      "prefix = prefix.toString().padStart(2, '0');\r",
+                      "\r",
+                      "// Generate random 7 digits\r",
+                      "let body = '';\r",
+                      "for (let i = 0; i < 7; i++) {\r",
+                      "    body += Math.floor(Math.random() * 10);\r",
+                      "}\r",
+                      "\r",
+                      "// Combine for EIN\r",
+                      "let ein = prefix + body;\r",
+                      "\r",
+                      "// Save as environment variable\r",
+                      "pm.environment.set(\"randomEIN\", ein);\r",
+                      ""
+                    ],
+                    "_lastExecutionId": "292a7df6-a811-4cbd-95b0-eddb80692f23"
+                  }
+                }
+              ]
+            }
+          ],
+          "event": [],
+          "variable": [],
+          "info": {
+            "_postman_id": "a01f2093-8fa4-4b15-be4c-099447705715",
+            "name": "Newman Business create",
+            "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+          }
+        },
+        "cursor": {
+          "position": 0,
+          "iteration": 0,
+          "length": 2,
+          "cycles": 1,
+          "empty": false,
+          "eof": false,
+          "bof": true,
+          "cr": false,
+          "ref": "1b7bf6d9-f6f5-480a-b526-cb3393ad4ea5",
+          "httpRequestId": "bbe17a20-e89a-4841-a01b-409d84d0c492",
+          "scriptId": "3bbafe34-24d8-42f3-b858-3c22fdb8514b"
+        }
+      }
+    ],
+    "executions": [
+      {
+        "name": "JWT",
+        "responseTime": 168,
+        "responseCode": 403,
+        "assertions": [
+          {
+            "assertion": "Status code is 200",
+            "error": "expected false to be truthy"
+          }
+        ]
+      },
+      {
+        "name": "Create",
+        "responseTime": 674,
+        "responseCode": 401,
+        "assertions": []
+      }
+    ]
+  },
+  {
+    "timestamp": "2025-11-25T09:58:45.581Z",
+    "duration": 54919,
+    "stats": {
+      "iterations": 1,
+      "requests": {
+        "total": 44,
+        "failed": 0
+      },
+      "assertions": {
+        "total": 4,
+        "failed": 0
+      },
+      "testScripts": {
+        "total": 4,
+        "failed": 0
+      }
+    },
+    "successRate": "100.00",
+    "failures": [],
+    "executions": [
+      {
+        "name": "JWT",
+        "responseTime": 1075,
+        "responseCode": 200,
+        "assertions": [
+          {
+            "assertion": "Status code is 200",
+            "error": null
+          }
+        ]
+      },
+      {
+        "name": "Business Create",
+        "responseTime": 1130,
+        "responseCode": 200,
+        "assertions": [
+          {
+            "assertion": "Status code is 200",
+            "error": null
+          }
+        ]
+      },
+      {
+        "name": "RequestByUrl - Request by default business",
+        "responseTime": 532,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request by new business id",
+        "responseTime": 530,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request by requester as null",
+        "responseTime": 1358,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request by requester as empty object",
+        "responseTime": 644,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request without 'requester' Object",
+        "responseTime": 462,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request with payeeref as null",
+        "responseTime": 393,
+        "responseCode": 400,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request with name as null",
+        "responseTime": 725,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request with TINMatching as false",
+        "responseTime": 583,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request with TINMatching as true",
+        "responseTime": 420,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request with Recipient object as empty string",
+        "responseTime": 422,
+        "responseCode": 400,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request with customization object as null",
+        "responseTime": 452,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request without customization object",
+        "responseTime": 576,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request with BusinessLogoUrl as null",
+        "responseTime": 507,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request with Customization as empty string",
+        "responseTime": 436,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request with Recipient object as empty string",
+        "responseTime": 573,
+        "responseCode": 400,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request with logo position as null",
+        "responseTime": 748,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request with  Primary & SecondayColor as null",
+        "responseTime": 438,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request with  RedirectUrl as null",
+        "responseTime": 502,
+        "responseCode": 400,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request with  RedirectUrl given",
+        "responseTime": 408,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request without Redirecturl object",
+        "responseTime": 724,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "JWT",
+        "responseTime": 267,
+        "responseCode": 200,
+        "assertions": [
+          {
+            "assertion": "Status code is 200",
+            "error": null
+          }
+        ]
+      },
+      {
+        "name": "Business Create",
+        "responseTime": 1271,
+        "responseCode": 200,
+        "assertions": [
+          {
+            "assertion": "Status code is 200",
+            "error": null
+          }
+        ]
+      },
+      {
+        "name": "RequestByEmail - Request by default business",
+        "responseTime": 556,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request by new business id",
+        "responseTime": 1223,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request by requester as null",
+        "responseTime": 413,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request by requester as empty object",
+        "responseTime": 612,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request without 'requester' Object",
+        "responseTime": 781,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request with payeeref as null",
+        "responseTime": 823,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request with email as null",
+        "responseTime": 486,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByemail- Request with SubmissionManifest as null",
+        "responseTime": 428,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request with TINMatching as true",
+        "responseTime": 447,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request with Recipient object as empty string",
+        "responseTime": 1365,
+        "responseCode": 400,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request with customization object as null",
+        "responseTime": 437,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request without customization object",
+        "responseTime": 427,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request with BusinessLogoUrl as null",
+        "responseTime": 419,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail- Request with Customization as empty string",
+        "responseTime": 1108,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request with Recipient object as empty string",
+        "responseTime": 978,
+        "responseCode": 400,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request with logo position as null",
+        "responseTime": 574,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request with  Primary & SecondayColor as null",
+        "responseTime": 443,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request with  WebhookRef as null",
+        "responseTime": 501,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request with  Webhook is invalid",
+        "responseTime": 457,
+        "responseCode": 400,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request without Redirecturl object",
+        "responseTime": 591,
+        "responseCode": 400,
+        "assertions": []
+      }
+    ]
+  },
+  {
+    "timestamp": "2025-11-25T10:02:38.689Z",
+    "duration": 2465,
+    "stats": {
+      "iterations": 1,
+      "requests": {
+        "total": 2,
+        "failed": 0
+      },
+      "assertions": {
+        "total": 2,
+        "failed": 2
+      },
+      "testScripts": {
+        "total": 2,
+        "failed": 0
+      }
+    },
+    "successRate": "0.00",
+    "failures": [
+      {
+        "error": {
+          "name": "AssertionError",
+          "index": 0,
+          "test": "Status code is 200",
+          "message": "expected response to have status code 200 but got 401",
+          "stack": "AssertionError: expected response to have status code 200 but got 401\n   at Object.eval sandbox-script.js:1:1)",
+          "checksum": "aec6d86e6d56e4e94182d9be957597aa",
+          "id": "0f8dca03-0ecb-440b-89c8-68859b6bdffa",
+          "timestamp": 1764064957311,
+          "stacktrace": [
+            {
+              "fileName": "sandbox-script.js",
+              "lineNumber": 1,
+              "functionName": "Object.eval",
+              "typeName": "Object",
+              "methodName": "eval",
+              "columnNumber": 1,
+              "native": false
+            }
+          ]
+        },
+        "at": "assertion:0 in test-script",
+        "source": {
+          "id": "a8cfb4e6-b7a0-4836-803f-337327efb97c",
+          "name": "JWT Copy",
+          "request": {
+            "url": {
+              "protocol": "https",
+              "path": [
+                "v2",
+                "tbsauth"
+              ],
+              "host": [
+                "v1-tbs-oauth",
+                "stssprint",
+                "com"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Authentication",
+                "value": "{{auth}}"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "14aab971-572b-422e-9723-c28da0b30385",
+                "type": "text/javascript",
+                "packages": {},
+                "exec": [
+                  "//Base64 URL encoding\r",
+                  "function base64url(source) {\r",
+                  "  // Encode in classical base64\r",
+                  "  encodedSource = CryptoJS.enc.Base64.stringify(source);\r",
+                  "\r",
+                  "  // Remove padding equal characters\r",
+                  "  encodedSource = encodedSource.replace(/=+$/, '');\r",
+                  "\r",
+                  "  // Replace characters according to base64url specifications\r",
+                  "  encodedSource = encodedSource.replace(/\\+/g, '-');\r",
+                  "  encodedSource = encodedSource.replace(/\\//g, '_');\r",
+                  "\r",
+                  "  return encodedSource;\r",
+                  "};\r",
+                  "\r",
+                  "//To generate Header and Payload\r",
+                  "\r",
+                  "var header = {\r",
+                  "  \"alg\": \"HS256\",\r",
+                  "  \"typ\": \"JWT\"\r",
+                  "};\r",
+                  "\r",
+                  "var stringifiedHeader = CryptoJS.enc.Utf8.parse(JSON.stringify(header));\r",
+                  "var encodedHeader = base64url(stringifiedHeader);\r",
+                  "\r",
+                  "//Unix epoch time formula\r",
+                  "var time = Math.floor(new Date().getTime()/1000.0); \r",
+                  "\r",
+                  "var payloaddata = {\r",
+                  "  \"iss\": pm.environment.get('clientid'),\r",
+                  "  \"sub\": pm.environment.get('clientid'),\r",
+                  "  \"aud\": pm.environment.get('usertoken'),\r",
+                  "  \"iat\": time-45\r",
+                  "  \r",
+                  "};\r",
+                  "console.log(time);\r",
+                  "\r",
+                  "var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(payloaddata));\r",
+                  "var encodedPayloadData = base64url(stringifiedData);\r",
+                  "\r",
+                  "var headerPayload = encodedHeader + \".\" + encodedPayloadData;\r",
+                  "\r",
+                  "//Client secret ID - To generate JWS\r",
+                  "\r",
+                  "var secretID = pm.environment.get('secret');\r",
+                  "\r",
+                  "var signature = CryptoJS.HmacSHA256(headerPayload, secretID);\r",
+                  "signature = base64url(signature);\r",
+                  "\r",
+                  "var jws = headerPayload + \".\" + signature;\r",
+                  "\r",
+                  "console.log(jws);\r",
+                  "\r",
+                  "pm.environment.set(\"auth\", jws);"
+                ],
+                "_lastExecutionId": "f31da9f4-f954-4ff5-b5b6-0a56ab44c6b5"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "e569686c-9faf-41d2-a521-9170e4108b57",
+                "type": "text/javascript",
+                "packages": {},
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "responseJSON=JSON.parse(responseBody);\r",
+                  "pm.environment.set(\"accesstoken\", responseJSON.AccessToken);"
+                ],
+                "_lastExecutionId": "fa4aa388-5f9a-428c-a8a4-319f426d896a"
+              }
+            }
+          ]
+        },
+        "parent": {
+          "_": {
+            "postman_id": "cb2f2d3b-cf46-4a18-ba1e-f9dc64dc6697",
+            "exporter_id": "49823783",
+            "collection_link": "https://ststbsqaapi-961042.postman.co/workspace/Harish-Sanjay-A~62ffee1e-741a-472f-b3b2-581b1c43277f/collection/49823783-cb2f2d3b-cf46-4a18-ba1e-f9dc64dc6697?action=share&source=collection_link&creator=49823783"
+          },
+          "item": [
+            {
+              "id": "a8cfb4e6-b7a0-4836-803f-337327efb97c",
+              "name": "JWT Copy",
+              "request": {
+                "url": {
+                  "protocol": "https",
+                  "path": [
+                    "v2",
+                    "tbsauth"
+                  ],
+                  "host": [
+                    "v1-tbs-oauth",
+                    "stssprint",
+                    "com"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Authentication",
+                    "value": "{{auth}}"
+                  }
+                ],
+                "method": "GET"
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "id": "14aab971-572b-422e-9723-c28da0b30385",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "exec": [
+                      "//Base64 URL encoding\r",
+                      "function base64url(source) {\r",
+                      "  // Encode in classical base64\r",
+                      "  encodedSource = CryptoJS.enc.Base64.stringify(source);\r",
+                      "\r",
+                      "  // Remove padding equal characters\r",
+                      "  encodedSource = encodedSource.replace(/=+$/, '');\r",
+                      "\r",
+                      "  // Replace characters according to base64url specifications\r",
+                      "  encodedSource = encodedSource.replace(/\\+/g, '-');\r",
+                      "  encodedSource = encodedSource.replace(/\\//g, '_');\r",
+                      "\r",
+                      "  return encodedSource;\r",
+                      "};\r",
+                      "\r",
+                      "//To generate Header and Payload\r",
+                      "\r",
+                      "var header = {\r",
+                      "  \"alg\": \"HS256\",\r",
+                      "  \"typ\": \"JWT\"\r",
+                      "};\r",
+                      "\r",
+                      "var stringifiedHeader = CryptoJS.enc.Utf8.parse(JSON.stringify(header));\r",
+                      "var encodedHeader = base64url(stringifiedHeader);\r",
+                      "\r",
+                      "//Unix epoch time formula\r",
+                      "var time = Math.floor(new Date().getTime()/1000.0); \r",
+                      "\r",
+                      "var payloaddata = {\r",
+                      "  \"iss\": pm.environment.get('clientid'),\r",
+                      "  \"sub\": pm.environment.get('clientid'),\r",
+                      "  \"aud\": pm.environment.get('usertoken'),\r",
+                      "  \"iat\": time-45\r",
+                      "  \r",
+                      "};\r",
+                      "console.log(time);\r",
+                      "\r",
+                      "var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(payloaddata));\r",
+                      "var encodedPayloadData = base64url(stringifiedData);\r",
+                      "\r",
+                      "var headerPayload = encodedHeader + \".\" + encodedPayloadData;\r",
+                      "\r",
+                      "//Client secret ID - To generate JWS\r",
+                      "\r",
+                      "var secretID = pm.environment.get('secret');\r",
+                      "\r",
+                      "var signature = CryptoJS.HmacSHA256(headerPayload, secretID);\r",
+                      "signature = base64url(signature);\r",
+                      "\r",
+                      "var jws = headerPayload + \".\" + signature;\r",
+                      "\r",
+                      "console.log(jws);\r",
+                      "\r",
+                      "pm.environment.set(\"auth\", jws);"
+                    ],
+                    "_lastExecutionId": "f31da9f4-f954-4ff5-b5b6-0a56ab44c6b5"
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "e569686c-9faf-41d2-a521-9170e4108b57",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "responseJSON=JSON.parse(responseBody);\r",
+                      "pm.environment.set(\"accesstoken\", responseJSON.AccessToken);"
+                    ],
+                    "_lastExecutionId": "fa4aa388-5f9a-428c-a8a4-319f426d896a"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "2352c32f-9097-40c7-98ca-75396bb3dd40",
+              "name": "Create Copy",
+              "request": {
+                "url": {
+                  "protocol": "https",
+                  "path": [
+                    "v1.7.3",
+                    "Business",
+                    "Create"
+                  ],
+                  "host": [
+                    "v1-tbs-api",
+                    "stssprint",
+                    "com"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "{{accesstoken}}"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n   \"BusinessNm\": \"{{$randomCompanyName}}\",\r\n   \"PayerRef\": \"Pe{{$randomInt}}\",\r\n   \"TradeNm\": \"Mac {{$randomCompanySuffix}}\",\r\n   \"IsEIN\": true,\r\n   \"EINorSSN\": \"005993930\",\r\n   \"Email\": \"harishsanjay.a@spantechnologyservices.com\",\r\n   \"ContactNm\": \"John\",\r\n   \"Phone\": \"6549873215\",\r\n   \"PhoneExtn\": \"12345\",\r\n   \"Fax\": \"9876543544\",\r\n   \"BusinessType\": \"ESTE\",\r\n   \"SigningAuthority\": {\r\n       \"Name\": \"John\",\r\n       \"Phone\": \"9876549874\",\r\n       \"BusinessMemberType\": \"ADMINISTRATOR\"\r\n   },\r\n   \"KindOfEmployer\": \"FEDERALGOVT\",\r\n   \"KindOfPayer\": \"REGULAR941\",\r\n   \"IsBusinessTerminated\": false,\r\n   \"IsForeign\": false,\r\n   \"USAddress\": {\r\n       \"Address1\": \"3521 Airport Way\",\r\n       \"Address2\": \"Unit 9\",\r\n       \"City\": \"Fairbanks\",\r\n       \"State\": \"AK\",\r\n       \"ZipCd\": \"99709\"\r\n   },\r\n   \"ForeignAddress\": {\r\n       \"Address1\": \"22 St\",\r\n       \"Address2\": \"Clair Ave E\",\r\n       \"City\": \"Toronto\",\r\n       \"ProvinceOrStateNm\": \"Ontario\",\r\n       \"Country\": \"CA\",\r\n       \"PostalCd\": \"M1R 0E9\"\r\n   }\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "type": "string",
+                      "value": "{{accesstoken}}",
+                      "key": "token"
+                    }
+                  ]
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "6c051037-46bd-452b-ac1f-7c5f8296ba89",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "exec": [
+                      "tests[\"Status code is 200\"]=responseCode.code===200;\r",
+                      "var responseJSON;\r",
+                      "responseJSON=JSON.parse(responseBody);\r",
+                      "pm.environment.set(\"BusinessId\", responseJSON.BusinessId);\r",
+                      "pm.environment.set(\"PayerRef\", responseJSON.PayerRef);"
+                    ],
+                    "_lastExecutionId": "1d91a04f-e2f9-4009-9b67-7f09e2ae7d58"
+                  }
+                }
+              ]
+            }
+          ],
+          "event": [],
+          "variable": [],
+          "info": {
+            "_postman_id": "cb2f2d3b-cf46-4a18-ba1e-f9dc64dc6697",
+            "name": "New Collection",
+            "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+          }
+        },
+        "cursor": {
+          "position": 0,
+          "iteration": 0,
+          "length": 2,
+          "cycles": 1,
+          "empty": false,
+          "eof": false,
+          "bof": true,
+          "cr": false,
+          "ref": "5407bc2f-d5d9-4d87-b284-049055ff514a",
+          "httpRequestId": "15927689-6a6f-4ba9-ac02-999d616ddfd7",
+          "scriptId": "e569686c-9faf-41d2-a521-9170e4108b57",
+          "execution": "fa4aa388-5f9a-428c-a8a4-319f426d896a"
+        }
+      },
+      {
+        "error": {
+          "name": "AssertionError",
+          "index": 0,
+          "test": "Status code is 200",
+          "message": "expected false to be truthy",
+          "stack": "AssertionError: expected false to be truthy\n   at Object.eval sandbox-script.js:1:2)",
+          "checksum": "2d920b9285362876a5925a809e92e317",
+          "id": "b791f673-9912-4f22-b381-7b16f2fec99a",
+          "timestamp": 1764064958503,
+          "stacktrace": [
+            {
+              "fileName": "sandbox-script.js",
+              "lineNumber": 1,
+              "functionName": "Object.eval",
+              "typeName": "Object",
+              "methodName": "eval",
+              "columnNumber": 2,
+              "native": false
+            }
+          ]
+        },
+        "at": "assertion:0 in test-script",
+        "source": {
+          "id": "2352c32f-9097-40c7-98ca-75396bb3dd40",
+          "name": "Create Copy",
+          "request": {
+            "url": {
+              "protocol": "https",
+              "path": [
+                "v1.7.3",
+                "Business",
+                "Create"
+              ],
+              "host": [
+                "v1-tbs-api",
+                "stssprint",
+                "com"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{accesstoken}}"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n   \"BusinessNm\": \"{{$randomCompanyName}}\",\r\n   \"PayerRef\": \"Pe{{$randomInt}}\",\r\n   \"TradeNm\": \"Mac {{$randomCompanySuffix}}\",\r\n   \"IsEIN\": true,\r\n   \"EINorSSN\": \"005993930\",\r\n   \"Email\": \"harishsanjay.a@spantechnologyservices.com\",\r\n   \"ContactNm\": \"John\",\r\n   \"Phone\": \"6549873215\",\r\n   \"PhoneExtn\": \"12345\",\r\n   \"Fax\": \"9876543544\",\r\n   \"BusinessType\": \"ESTE\",\r\n   \"SigningAuthority\": {\r\n       \"Name\": \"John\",\r\n       \"Phone\": \"9876549874\",\r\n       \"BusinessMemberType\": \"ADMINISTRATOR\"\r\n   },\r\n   \"KindOfEmployer\": \"FEDERALGOVT\",\r\n   \"KindOfPayer\": \"REGULAR941\",\r\n   \"IsBusinessTerminated\": false,\r\n   \"IsForeign\": false,\r\n   \"USAddress\": {\r\n       \"Address1\": \"3521 Airport Way\",\r\n       \"Address2\": \"Unit 9\",\r\n       \"City\": \"Fairbanks\",\r\n       \"State\": \"AK\",\r\n       \"ZipCd\": \"99709\"\r\n   },\r\n   \"ForeignAddress\": {\r\n       \"Address1\": \"22 St\",\r\n       \"Address2\": \"Clair Ave E\",\r\n       \"City\": \"Toronto\",\r\n       \"ProvinceOrStateNm\": \"Ontario\",\r\n       \"Country\": \"CA\",\r\n       \"PostalCd\": \"M1R 0E9\"\r\n   }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string",
+                  "value": "{{accesstoken}}",
+                  "key": "token"
+                }
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "6c051037-46bd-452b-ac1f-7c5f8296ba89",
+                "type": "text/javascript",
+                "packages": {},
+                "exec": [
+                  "tests[\"Status code is 200\"]=responseCode.code===200;\r",
+                  "var responseJSON;\r",
+                  "responseJSON=JSON.parse(responseBody);\r",
+                  "pm.environment.set(\"BusinessId\", responseJSON.BusinessId);\r",
+                  "pm.environment.set(\"PayerRef\", responseJSON.PayerRef);"
+                ],
+                "_lastExecutionId": "1d91a04f-e2f9-4009-9b67-7f09e2ae7d58"
+              }
+            }
+          ]
+        },
+        "parent": {
+          "_": {
+            "postman_id": "cb2f2d3b-cf46-4a18-ba1e-f9dc64dc6697",
+            "exporter_id": "49823783",
+            "collection_link": "https://ststbsqaapi-961042.postman.co/workspace/Harish-Sanjay-A~62ffee1e-741a-472f-b3b2-581b1c43277f/collection/49823783-cb2f2d3b-cf46-4a18-ba1e-f9dc64dc6697?action=share&source=collection_link&creator=49823783"
+          },
+          "item": [
+            {
+              "id": "a8cfb4e6-b7a0-4836-803f-337327efb97c",
+              "name": "JWT Copy",
+              "request": {
+                "url": {
+                  "protocol": "https",
+                  "path": [
+                    "v2",
+                    "tbsauth"
+                  ],
+                  "host": [
+                    "v1-tbs-oauth",
+                    "stssprint",
+                    "com"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Authentication",
+                    "value": "{{auth}}"
+                  }
+                ],
+                "method": "GET"
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "id": "14aab971-572b-422e-9723-c28da0b30385",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "exec": [
+                      "//Base64 URL encoding\r",
+                      "function base64url(source) {\r",
+                      "  // Encode in classical base64\r",
+                      "  encodedSource = CryptoJS.enc.Base64.stringify(source);\r",
+                      "\r",
+                      "  // Remove padding equal characters\r",
+                      "  encodedSource = encodedSource.replace(/=+$/, '');\r",
+                      "\r",
+                      "  // Replace characters according to base64url specifications\r",
+                      "  encodedSource = encodedSource.replace(/\\+/g, '-');\r",
+                      "  encodedSource = encodedSource.replace(/\\//g, '_');\r",
+                      "\r",
+                      "  return encodedSource;\r",
+                      "};\r",
+                      "\r",
+                      "//To generate Header and Payload\r",
+                      "\r",
+                      "var header = {\r",
+                      "  \"alg\": \"HS256\",\r",
+                      "  \"typ\": \"JWT\"\r",
+                      "};\r",
+                      "\r",
+                      "var stringifiedHeader = CryptoJS.enc.Utf8.parse(JSON.stringify(header));\r",
+                      "var encodedHeader = base64url(stringifiedHeader);\r",
+                      "\r",
+                      "//Unix epoch time formula\r",
+                      "var time = Math.floor(new Date().getTime()/1000.0); \r",
+                      "\r",
+                      "var payloaddata = {\r",
+                      "  \"iss\": pm.environment.get('clientid'),\r",
+                      "  \"sub\": pm.environment.get('clientid'),\r",
+                      "  \"aud\": pm.environment.get('usertoken'),\r",
+                      "  \"iat\": time-45\r",
+                      "  \r",
+                      "};\r",
+                      "console.log(time);\r",
+                      "\r",
+                      "var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(payloaddata));\r",
+                      "var encodedPayloadData = base64url(stringifiedData);\r",
+                      "\r",
+                      "var headerPayload = encodedHeader + \".\" + encodedPayloadData;\r",
+                      "\r",
+                      "//Client secret ID - To generate JWS\r",
+                      "\r",
+                      "var secretID = pm.environment.get('secret');\r",
+                      "\r",
+                      "var signature = CryptoJS.HmacSHA256(headerPayload, secretID);\r",
+                      "signature = base64url(signature);\r",
+                      "\r",
+                      "var jws = headerPayload + \".\" + signature;\r",
+                      "\r",
+                      "console.log(jws);\r",
+                      "\r",
+                      "pm.environment.set(\"auth\", jws);"
+                    ],
+                    "_lastExecutionId": "f31da9f4-f954-4ff5-b5b6-0a56ab44c6b5"
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "e569686c-9faf-41d2-a521-9170e4108b57",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "responseJSON=JSON.parse(responseBody);\r",
+                      "pm.environment.set(\"accesstoken\", responseJSON.AccessToken);"
+                    ],
+                    "_lastExecutionId": "fa4aa388-5f9a-428c-a8a4-319f426d896a"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "2352c32f-9097-40c7-98ca-75396bb3dd40",
+              "name": "Create Copy",
+              "request": {
+                "url": {
+                  "protocol": "https",
+                  "path": [
+                    "v1.7.3",
+                    "Business",
+                    "Create"
+                  ],
+                  "host": [
+                    "v1-tbs-api",
+                    "stssprint",
+                    "com"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "{{accesstoken}}"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n   \"BusinessNm\": \"{{$randomCompanyName}}\",\r\n   \"PayerRef\": \"Pe{{$randomInt}}\",\r\n   \"TradeNm\": \"Mac {{$randomCompanySuffix}}\",\r\n   \"IsEIN\": true,\r\n   \"EINorSSN\": \"005993930\",\r\n   \"Email\": \"harishsanjay.a@spantechnologyservices.com\",\r\n   \"ContactNm\": \"John\",\r\n   \"Phone\": \"6549873215\",\r\n   \"PhoneExtn\": \"12345\",\r\n   \"Fax\": \"9876543544\",\r\n   \"BusinessType\": \"ESTE\",\r\n   \"SigningAuthority\": {\r\n       \"Name\": \"John\",\r\n       \"Phone\": \"9876549874\",\r\n       \"BusinessMemberType\": \"ADMINISTRATOR\"\r\n   },\r\n   \"KindOfEmployer\": \"FEDERALGOVT\",\r\n   \"KindOfPayer\": \"REGULAR941\",\r\n   \"IsBusinessTerminated\": false,\r\n   \"IsForeign\": false,\r\n   \"USAddress\": {\r\n       \"Address1\": \"3521 Airport Way\",\r\n       \"Address2\": \"Unit 9\",\r\n       \"City\": \"Fairbanks\",\r\n       \"State\": \"AK\",\r\n       \"ZipCd\": \"99709\"\r\n   },\r\n   \"ForeignAddress\": {\r\n       \"Address1\": \"22 St\",\r\n       \"Address2\": \"Clair Ave E\",\r\n       \"City\": \"Toronto\",\r\n       \"ProvinceOrStateNm\": \"Ontario\",\r\n       \"Country\": \"CA\",\r\n       \"PostalCd\": \"M1R 0E9\"\r\n   }\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "type": "string",
+                      "value": "{{accesstoken}}",
+                      "key": "token"
+                    }
+                  ]
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "6c051037-46bd-452b-ac1f-7c5f8296ba89",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "exec": [
+                      "tests[\"Status code is 200\"]=responseCode.code===200;\r",
+                      "var responseJSON;\r",
+                      "responseJSON=JSON.parse(responseBody);\r",
+                      "pm.environment.set(\"BusinessId\", responseJSON.BusinessId);\r",
+                      "pm.environment.set(\"PayerRef\", responseJSON.PayerRef);"
+                    ],
+                    "_lastExecutionId": "1d91a04f-e2f9-4009-9b67-7f09e2ae7d58"
+                  }
+                }
+              ]
+            }
+          ],
+          "event": [],
+          "variable": [],
+          "info": {
+            "_postman_id": "cb2f2d3b-cf46-4a18-ba1e-f9dc64dc6697",
+            "name": "New Collection",
+            "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+          }
+        },
+        "cursor": {
+          "ref": "2623d67b-4741-443c-ac63-f8c59a692e6f",
+          "length": 2,
+          "cycles": 1,
+          "position": 1,
+          "iteration": 0,
+          "httpRequestId": "7a0388b2-f823-4d9f-bac0-42bf3eadab82",
+          "scriptId": "6c051037-46bd-452b-ac1f-7c5f8296ba89",
+          "execution": "1d91a04f-e2f9-4009-9b67-7f09e2ae7d58"
+        }
+      }
+    ],
+    "executions": [
+      {
+        "name": "JWT Copy",
+        "responseTime": 658,
+        "responseCode": 401,
+        "assertions": [
+          {
+            "assertion": "Status code is 200",
+            "error": "expected response to have status code 200 but got 401"
+          }
+        ]
+      },
+      {
+        "name": "Create Copy",
+        "responseTime": 569,
+        "responseCode": 401,
+        "assertions": [
+          {
+            "assertion": "Status code is 200",
+            "error": "expected false to be truthy"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "timestamp": "2025-11-25T10:24:21.752Z",
+    "duration": 58522,
+    "stats": {
+      "iterations": 1,
+      "requests": {
+        "total": 44,
+        "failed": 0
+      },
+      "assertions": {
+        "total": 4,
+        "failed": 0
+      },
+      "testScripts": {
+        "total": 4,
+        "failed": 0
+      }
+    },
+    "successRate": "100.00",
+    "failures": [],
+    "executions": [
+      {
+        "name": "JWT",
+        "responseTime": 1013,
+        "responseCode": 200,
+        "assertions": [
+          {
+            "assertion": "Status code is 200",
+            "error": null
+          }
+        ]
+      },
+      {
+        "name": "Business Create",
+        "responseTime": 2081,
+        "responseCode": 200,
+        "assertions": [
+          {
+            "assertion": "Status code is 200",
+            "error": null
+          }
+        ]
+      },
+      {
+        "name": "RequestByUrl - Request by default business",
+        "responseTime": 1105,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request by new business id",
+        "responseTime": 746,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request by requester as null",
+        "responseTime": 1344,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request by requester as empty object",
+        "responseTime": 584,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request without 'requester' Object",
+        "responseTime": 590,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request with payeeref as null",
+        "responseTime": 389,
+        "responseCode": 400,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request with name as null",
+        "responseTime": 454,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request with TINMatching as false",
+        "responseTime": 487,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request with TINMatching as true",
+        "responseTime": 507,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request with Recipient object as empty string",
+        "responseTime": 468,
+        "responseCode": 400,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request with customization object as null",
+        "responseTime": 1090,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request without customization object",
+        "responseTime": 548,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request with BusinessLogoUrl as null",
+        "responseTime": 1028,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request with Customization as empty string",
+        "responseTime": 631,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request with Recipient object as empty string",
+        "responseTime": 708,
+        "responseCode": 400,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request with logo position as null",
+        "responseTime": 550,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request with  Primary & SecondayColor as null",
+        "responseTime": 494,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request with  RedirectUrl as null",
+        "responseTime": 435,
+        "responseCode": 400,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request with  RedirectUrl given",
+        "responseTime": 611,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request without Redirecturl object",
+        "responseTime": 484,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "JWT",
+        "responseTime": 276,
+        "responseCode": 200,
+        "assertions": [
+          {
+            "assertion": "Status code is 200",
+            "error": null
+          }
+        ]
+      },
+      {
+        "name": "Business Create",
+        "responseTime": 1389,
+        "responseCode": 200,
+        "assertions": [
+          {
+            "assertion": "Status code is 200",
+            "error": null
+          }
+        ]
+      },
+      {
+        "name": "RequestByEmail - Request by default business",
+        "responseTime": 781,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request by new business id",
+        "responseTime": 853,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request by requester as null",
+        "responseTime": 952,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request by requester as empty object",
+        "responseTime": 1273,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request without 'requester' Object",
+        "responseTime": 476,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request with payeeref as null",
+        "responseTime": 415,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request with email as null",
+        "responseTime": 393,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByemail- Request with SubmissionManifest as null",
+        "responseTime": 718,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request with TINMatching as true",
+        "responseTime": 852,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request with Recipient object as empty string",
+        "responseTime": 475,
+        "responseCode": 400,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request with customization object as null",
+        "responseTime": 443,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request without customization object",
+        "responseTime": 1305,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request with BusinessLogoUrl as null",
+        "responseTime": 405,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail- Request with Customization as empty string",
+        "responseTime": 816,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request with Recipient object as empty string",
+        "responseTime": 518,
+        "responseCode": 400,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request with logo position as null",
+        "responseTime": 870,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request with  Primary & SecondayColor as null",
+        "responseTime": 465,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request with  WebhookRef as null",
+        "responseTime": 429,
+        "responseCode": 402,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request with  Webhook is invalid",
+        "responseTime": 534,
+        "responseCode": 400,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request without Redirecturl object",
+        "responseTime": 865,
+        "responseCode": 400,
+        "assertions": []
+      }
+    ]
+  },
+  {
+    "timestamp": "2025-11-25T10:38:54.391Z",
+    "duration": 63214,
+    "stats": {
+      "iterations": 1,
+      "requests": {
+        "total": 44,
+        "failed": 0
+      },
+      "assertions": {
+        "total": 4,
+        "failed": 0
+      },
+      "testScripts": {
+        "total": 4,
+        "failed": 0
+      }
+    },
+    "successRate": "100.00",
+    "failures": [],
+    "executions": [
+      {
+        "name": "JWT",
+        "responseTime": 1153,
+        "responseCode": 200,
+        "assertions": [
+          {
+            "assertion": "Status code is 200",
+            "error": null
+          }
+        ]
+      },
+      {
+        "name": "Business Create",
+        "responseTime": 1185,
+        "responseCode": 200,
+        "assertions": [
+          {
+            "assertion": "Status code is 200",
+            "error": null
+          }
+        ]
+      },
+      {
+        "name": "RequestByUrl - Request by default business",
+        "responseTime": 545,
+        "responseCode": 200,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request by new business id",
+        "responseTime": 1383,
+        "responseCode": 200,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request by requester as null",
+        "responseTime": 465,
+        "responseCode": 200,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request by requester as empty object",
+        "responseTime": 541,
+        "responseCode": 200,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request without 'requester' Object",
+        "responseTime": 552,
+        "responseCode": 200,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request with payeeref as null",
+        "responseTime": 1069,
+        "responseCode": 400,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request with name as null",
+        "responseTime": 490,
+        "responseCode": 200,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request with TINMatching as false",
+        "responseTime": 488,
+        "responseCode": 200,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request with TINMatching as true",
+        "responseTime": 509,
+        "responseCode": 200,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request with Recipient object as empty string",
+        "responseTime": 974,
+        "responseCode": 400,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request with customization object as null",
+        "responseTime": 841,
+        "responseCode": 200,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request without customization object",
+        "responseTime": 520,
+        "responseCode": 200,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request with BusinessLogoUrl as null",
+        "responseTime": 566,
+        "responseCode": 200,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request with Customization as empty string",
+        "responseTime": 800,
+        "responseCode": 200,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request with Recipient object as empty string",
+        "responseTime": 385,
+        "responseCode": 400,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request with logo position as null",
+        "responseTime": 649,
+        "responseCode": 200,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request with  Primary & SecondayColor as null",
+        "responseTime": 458,
+        "responseCode": 200,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request with  RedirectUrl as null",
+        "responseTime": 1129,
+        "responseCode": 400,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request with  RedirectUrl given",
+        "responseTime": 479,
+        "responseCode": 200,
+        "assertions": []
+      },
+      {
+        "name": "RequestByUrl - Request without Redirecturl object",
+        "responseTime": 1448,
+        "responseCode": 200,
+        "assertions": []
+      },
+      {
+        "name": "JWT",
+        "responseTime": 294,
+        "responseCode": 200,
+        "assertions": [
+          {
+            "assertion": "Status code is 200",
+            "error": null
+          }
+        ]
+      },
+      {
+        "name": "Business Create",
+        "responseTime": 1198,
+        "responseCode": 200,
+        "assertions": [
+          {
+            "assertion": "Status code is 200",
+            "error": null
+          }
+        ]
+      },
+      {
+        "name": "RequestByEmail - Request by default business",
+        "responseTime": 846,
+        "responseCode": 200,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request by new business id",
+        "responseTime": 1660,
+        "responseCode": 200,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request by requester as null",
+        "responseTime": 686,
+        "responseCode": 200,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request by requester as empty object",
+        "responseTime": 1234,
+        "responseCode": 200,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request without 'requester' Object",
+        "responseTime": 839,
+        "responseCode": 200,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request with payeeref as null",
+        "responseTime": 1472,
+        "responseCode": 200,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request with email as null",
+        "responseTime": 415,
+        "responseCode": 400,
+        "assertions": []
+      },
+      {
+        "name": "RequestByemail- Request with SubmissionManifest as null",
+        "responseTime": 659,
+        "responseCode": 200,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request with TINMatching as true",
+        "responseTime": 1417,
+        "responseCode": 200,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request with Recipient object as empty string",
+        "responseTime": 655,
+        "responseCode": 400,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request with customization object as null",
+        "responseTime": 721,
+        "responseCode": 200,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request without customization object",
+        "responseTime": 752,
+        "responseCode": 200,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request with BusinessLogoUrl as null",
+        "responseTime": 1144,
+        "responseCode": 200,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail- Request with Customization as empty string",
+        "responseTime": 1275,
+        "responseCode": 200,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request with Recipient object as empty string",
+        "responseTime": 388,
+        "responseCode": 400,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request with logo position as null",
+        "responseTime": 1202,
+        "responseCode": 200,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request with  Primary & SecondayColor as null",
+        "responseTime": 833,
+        "responseCode": 200,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request with  WebhookRef as null",
+        "responseTime": 1039,
+        "responseCode": 200,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request with  Webhook is invalid",
+        "responseTime": 1147,
+        "responseCode": 400,
+        "assertions": []
+      },
+      {
+        "name": "RequestByEmail - Request without Redirecturl object",
+        "responseTime": 607,
+        "responseCode": 400,
+        "assertions": []
+      }
+    ]
+  }
+]

@@ -7,6 +7,9 @@ const fs = require('fs');
 const path = require('path');
 const { getConfig } = require('./config/config');
 
+// Load environment variables from .env file
+require('dotenv').config();
+
 class EnhancedNewmanRunner {
   constructor() {
     this.config = getConfig();
@@ -48,6 +51,9 @@ class EnhancedNewmanRunner {
       
     } catch (error) {
       console.error('❌ Enhanced Newman test suite failed:', error.message);
+      
+      // Try to generate a failure report
+      await this.generateFailureReport(error);
       
       // Send failure notification
       await this.sendFailureNotification(error);
@@ -194,6 +200,47 @@ class EnhancedNewmanRunner {
   </div>
 </body>
 </html>`;
+  }
+
+  async generateFailureReport(error) {
+    try {
+      console.log('📄 Generating failure report...');
+      
+      const failureData = {
+        timestamp: new Date().toISOString(),
+        duration: 0,
+        stats: {
+          iterations: { total: 0, failed: 0 },
+          requests: { total: 0, failed: 0 },
+          assertions: { total: 0, failed: 0 },
+          testScripts: { total: 0, failed: 1 }
+        },
+        successRate: '0.00',
+        failures: [{
+          error: {
+            message: error.message,
+            stack: error.stack
+          },
+          source: { name: 'Test Suite Execution' }
+        }],
+        executions: [],
+        error: error.message
+      };
+
+      const historicalData = this.reportGenerator.loadHistoricalData();
+      historicalData.push(failureData);
+      this.reportGenerator.saveHistoricalData(historicalData);
+      
+      const trendAnalysis = this.reportGenerator.generateTrendAnalysis(historicalData);
+      const enhancedHtml = this.reportGenerator.createEnhancedHtmlReport(failureData, trendAnalysis);
+      
+      await this.saveEnhancedReport(enhancedHtml);
+      
+      console.log('📄 Failure report generated successfully');
+      
+    } catch (reportError) {
+      console.error('❌ Failed to generate failure report:', reportError.message);
+    }
   }
 
   async sendFailureNotification(error) {

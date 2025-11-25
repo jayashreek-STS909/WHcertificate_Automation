@@ -14,8 +14,17 @@ const config = {
           title: 'API Test Report',
           browserTitle: 'Newman Test Report',
           darkTheme: true,
-          skipHeaders: 'Authorization',
-          skipSensitiveData: true
+          showOnlyFailed: false,
+          skipHeaders: '',
+          skipSensitiveData: false,
+          requestHeaders: true,
+          requestBodies: true,
+          responseHeaders: true,
+          responseBodies: true,
+          testPanes: true,
+          logs: true,
+          assertions: true,
+          scripts: true
         },
         json: {
           export: path.join(__dirname, '..', 'reports', 'report.json')
@@ -86,12 +95,12 @@ const config = {
   // Production environment
   production: {
     newman: {
-      timeout: 30000,
+      timeout: 120000,
       delayRequest: 500
     },
     retry: {
-      maxRetries: 5,
-      retryDelay: 10000
+      maxRetries: 1,
+      retryDelay: 5000
     }
   }
 };

@@ -1,196 +1,2098 @@
 {
 	"info": {
-		"_postman_id": "a01f2093-8fa4-4b15-be4c-099447705715",
-		"name": "Newman Business create",
+		"_postman_id": "f8ecae14-f688-4583-b19a-c11db0bf1e2a",
+		"name": "001 WHCertificate - All  scenarios",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "43003067"
+		"_exporter_id": "27036089"
 	},
 	"item": [
 		{
-			"name": "JWT",
-			"event": [
+			"name": "WhCertificate - RequestByUrl",
+			"item": [
 				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"tests[\"Status code is 200\"]=responseCode.code===200;\r",
-							"var responseJSON;\r",
-							"responseJSON=JSON.parse(responseBody);\r",
-							"pm.environment.set(\"accesstoken\", responseJSON[\"AccessToken\"]);"
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				},
-				{
-					"listen": "prerequest",
-					"script": {
-						"exec": [
-							"//Base64 URL encoding\r",
-							"function base64url(source) {\r",
-							"  // Encode in classical base64\r",
-							"  encodedSource = CryptoJS.enc.Base64.stringify(source);\r",
-							"\r",
-							"  // Remove padding equal characters\r",
-							"  encodedSource = encodedSource.replace(/=+$/, '');\r",
-							"\r",
-							"  // Replace characters according to base64url specifications\r",
-							"  encodedSource = encodedSource.replace(/\\+/g, '-');\r",
-							"  encodedSource = encodedSource.replace(/\\//g, '_');\r",
-							"\r",
-							"  return encodedSource;\r",
-							"};\r",
-							"\r",
-							"//To generate Header and Payload\r",
-							"\r",
-							"var header = {\r",
-							"  \"alg\": \"HS256\",\r",
-							"  \"typ\": \"JWT\"\r",
-							"};\r",
-							"\r",
-							"var stringifiedHeader = CryptoJS.enc.Utf8.parse(JSON.stringify(header));\r",
-							"var encodedHeader = base64url(stringifiedHeader);\r",
-							"\r",
-							"//Unix epoch time formula\r",
-							"var time = Math.floor(new Date().getTime()/1000.0); \r",
-							"\r",
-							"var payloaddata = {\r",
-							"  \"iss\": pm.environment.get('clientid'),\r",
-							"  \"sub\": pm.environment.get('clientid'),\r",
-							"  \"aud\": pm.environment.get('usertoken'),\r",
-							"  \"iat\": time-14\r",
-							"};\r",
-							"console.log(time);\r",
-							"\r",
-							"var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(payloaddata));\r",
-							"var encodedPayloadData = base64url(stringifiedData);\r",
-							"\r",
-							"var headerPayload = encodedHeader + \".\" + encodedPayloadData;\r",
-							"\r",
-							"//Client secret ID - To generate JWS\r",
-							"\r",
-							"var secretID = pm.environment.get('secret');\r",
-							"\r",
-							"var signature = CryptoJS.HmacSHA256(headerPayload, secretID);\r",
-							"signature = base64url(signature);\r",
-							"\r",
-							"var jws = headerPayload + \".\" + signature;\r",
-							"\r",
-							"console.log(jws);\r",
-							"\r",
-							"pm.environment.set(\"auth\", jws);\r",
-							"\r",
-							""
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authentication",
-						"value": "{{auth}}",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
+					"name": "JWT",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"//Base64 URL encoding\r",
+									"function base64url(source) {\r",
+									"  // Encode in classical base64\r",
+									"  encodedSource = CryptoJS.enc.Base64.stringify(source);\r",
+									"\r",
+									"  // Remove padding equal characters\r",
+									"  encodedSource = encodedSource.replace(/=+$/, '');\r",
+									"\r",
+									"  // Replace characters according to base64url specifications\r",
+									"  encodedSource = encodedSource.replace(/\\+/g, '-');\r",
+									"  encodedSource = encodedSource.replace(/\\//g, '_');\r",
+									"\r",
+									"  return encodedSource;\r",
+									"};\r",
+									"\r",
+									"//To generate Header and Payload\r",
+									"\r",
+									"var header = {\r",
+									"  \"alg\": \"HS256\",\r",
+									"  \"typ\": \"JWT\"\r",
+									"};\r",
+									"\r",
+									"var stringifiedHeader = CryptoJS.enc.Utf8.parse(JSON.stringify(header));\r",
+									"var encodedHeader = base64url(stringifiedHeader);\r",
+									"\r",
+									"//Unix epoch time formula\r",
+									"var time = Math.floor(new Date().getTime()/1000.0); \r",
+									"\r",
+									"var payloaddata = {\r",
+									"  \"iss\": pm.environment.get('clientid'),\r",
+									"  \"sub\": pm.environment.get('clientid'),\r",
+									"  \"aud\": pm.environment.get('usertoken'),\r",
+									"  \"iat\": time-45\r",
+									"  \r",
+									"};\r",
+									"console.log(time);\r",
+									"\r",
+									"var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(payloaddata));\r",
+									"var encodedPayloadData = base64url(stringifiedData);\r",
+									"\r",
+									"var headerPayload = encodedHeader + \".\" + encodedPayloadData;\r",
+									"\r",
+									"//Client secret ID - To generate JWS\r",
+									"\r",
+									"var secretID = pm.environment.get('secret');\r",
+									"\r",
+									"var signature = CryptoJS.HmacSHA256(headerPayload, secretID);\r",
+									"signature = base64url(signature);\r",
+									"\r",
+									"var jws = headerPayload + \".\" + signature;\r",
+									"\r",
+									"console.log(jws);\r",
+									"\r",
+									"pm.environment.set(\"auth\", jws);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"responseJSON=JSON.parse(responseBody);\r",
+									"pm.environment.set(\"accesstoken\", responseJSON.AccessToken);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
 						}
-					}
-				},
-				"url": {
-					"raw": "http://testoauth.expressauth.net/v2/tbsauth",
-					"protocol": "http",
-					"host": [
-						"testoauth",
-						"expressauth",
-						"net"
 					],
-					"path": [
-						"v2",
-						"tbsauth"
-					]
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authentication",
+								"value": "{{auth}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseURL}}",
+							"host": [
+								"{{BaseURL}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Business Create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"Status code is 200\"]=responseCode.code===200;\r",
+									"var responseJSON;\r",
+									"responseJSON=JSON.parse(responseBody);\r",
+									"pm.environment.set(\"BusinessId\", responseJSON.BusinessId);"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set('Payer_ref', \"Pe\"+_.random(6666, 16000));\r",
+									"\r",
+									"const excludedNumbers = [7, 8, 9, 17, 18, 19, 28, 29, 49, 69, 70, 78, 79, 89];\r",
+									"\r",
+									"function generateRandomEIN() {\r",
+									"    let ein;\r",
+									"    do {\r",
+									"        ein = `${Math.floor(Math.random() * 90) + 10}-${Math.floor(Math.random() * 8999999) + 1000000}`; // generate a random EIN number in the format XX-YYYYYYY\r",
+									"    } while (excludedNumbers.some(n => ein.startsWith(n))); // repeat until a non-excluded number is generated\r",
+									"    return ein;\r",
+									"}\r",
+									"\r",
+									"const randomEIN = generateRandomEIN();\r",
+									"pm.environment.set('randomNumer_EIN', randomEIN);\r",
+									"\r",
+									"function generateRandomSSN() {\r",
+									"    let ssn;\r",
+									"    do {\r",
+									"        ssn = `${Math.floor(Math.random() * 900) + 100}-${Math.floor(Math.random() * 90) + 10}-${Math.floor(Math.random() * 9000) + 1000}`; // generate a random SSN number in the format XXX-XX-XXXX\r",
+									"    } while (ssn.startsWith('666') || ssn.startsWith('999') || ssn.startsWith('000') || ssn.startsWith('9')); // repeat until a non-excluded number is generated\r",
+									"    return ssn;\r",
+									"}\r",
+									"\r",
+									"const randomSSN = generateRandomSSN();\r",
+									"pm.environment.set('randomNumer_SSN', randomSSN);\r",
+									"\r",
+									"\r",
+									"\r",
+									"function randomString(minValue, maxValue, dataSet = 'abcdefgh0123456789ABCDEFGVWXYZ') {\r",
+									"    if (!minValue) {\r",
+									"        minValue = 4;\r",
+									"        maxValue = 10;\r",
+									"    }\r",
+									"\r",
+									"    if (!maxValue) {\r",
+									"        maxValue = minValue;\r",
+									"    }\r",
+									"\r",
+									"    let length = _.random(minValue, maxValue),\r",
+									"        randomString = \"\";\r",
+									"\r",
+									"    for (let i = 0; i < length; i++)\r",
+									"        randomString += dataSet.charAt(Math.floor(Math.random() * dataSet.length));\r",
+									"    return randomString;\r",
+									"}\r",
+									"\r",
+									"pm.variables.set('payerref', randomString());\r",
+									"pm.variables.set('accountno', randomString());\r",
+									"\r",
+									"function generateRandomPhoneNumber() {\r",
+									"    var phoneNumber = '9'; // Start with 9 as the first digit\r",
+									"    for (var i = 0; i < 9; i++) {\r",
+									"        phoneNumber += Math.floor(Math.random() * 10);\r",
+									"    }\r",
+									"    return phoneNumber;\r",
+									"}\r",
+									"\r",
+									"var randomPhoneNumber = generateRandomPhoneNumber();\r",
+									"console.log(randomPhoneNumber);\r",
+									"\r",
+									"pm.variables.set('phoneNumber', generateRandomFaxNumber());\r",
+									"\r",
+									"function generateRandomEmail() {\r",
+									"    let randomNumber = Math.floor(Math.random() * 10000); // Generate a random 4-digit number\r",
+									"    let email = `prince.k+${randomNumber}@spantechnologyservices.com`;\r",
+									"    return email;\r",
+									"}\r",
+									"\r",
+									"var randomEmail = generateRandomEmail();\r",
+									"console.log(randomEmail);\r",
+									"\r",
+									"pm.variables.set('RandomEmail', generateRandomEmail());\r",
+									"\r",
+									"function generateRandomFaxNumber() {\r",
+									"    var FaxNumber = '9'; // Start with 9 as the first digit\r",
+									"    for (var i = 0; i < 9; i++) {\r",
+									"        FaxNumber += Math.floor(Math.random() * 10);\r",
+									"    }\r",
+									"    return FaxNumber;\r",
+									"}\r",
+									"\r",
+									"var randomFaxNumber = generateRandomPhoneNumber();\r",
+									"console.log(randomFaxNumber);\r",
+									"\r",
+									"pm.variables.set('faxNumber', generateRandomFaxNumber());\r",
+									"\r",
+									"var i = pm.environment.get('i')\r",
+									"console.log(\"i\", i)\r",
+									"i ? pm.environment.set('i', i+1) : pm.environment.set('i', 1);"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accesstoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL29hdXRoLnNwYW51YXQuY29tL3YyLyIsInN1YiI6Ijg1YmJmMTdlMTgzZDUwNzMiLCJhdWQiOiJiYzI2MmZhNGVjNDI0YTU4YmNkMzg0MzUxMTkyMTc2NiIsImlhdCI6MTY5MzMwNTg2OCwiZXhwIjoxNjkzMzA5NDY4fQ.3HMT181e9UrxeW50PfOFDENFFFKBuCkhbR0xBPOZLYA",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "{{accesstoken}}"
+							},
+							{
+								"key": "Referer",
+								"value": "1B04EC44-78AF-4127-88AD-1B1A6D433876"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"BusinessNm\": \"{{$randomCompanyName}}\",\r\n    \"FirstNm\": \"Jamie\",\r\n    \"MiddleNm\": null,\r\n    \"LastNm\": \"M\",\r\n    \"Suffix\": null,\r\n    \"PayerRef\": \"{{Payer_ref}}\",\r\n    \"TradeNm\": \"{{$randomBsBuzz}}\",\r\n    \"IsDefaultBusiness\": true,\r\n    \"IsEIN\": true,\r\n    \"EINorSSN\": \"{{randomNumer_EIN}}\",\r\n    \"Email\": \"jayashree.k+8557@spantechnologyservices.com\",\r\n    \"ContactNm\": \"{{$randomFirstName}}\",\r\n    \"Phone\": \"6534567890\",\r\n    \"PhoneExtn\": \"123\",\r\n    \"Fax\": \"9834567890\",\r\n    \"BusinessType\": \"ESTE\",\r\n    \"SigningAuthority\": {\r\n        \"Name\": \"James Smith\",\r\n        \"Phone\": \"9934567890\",\r\n        \"BusinessMemberType\": \"ADMINISTRATOR\"\r\n    },\r\n    \"KindOfEmployer\": \"FEDERALGOVT\",\r\n    \"KindOfPayer\": \"REGULAR941\",\r\n    \"IsBusinessTerminated\": false,\r\n    \"Form1042SDetails\": {\r\n        \"WHAgtCh3Cd\": \"11\",\r\n        \"WHAgtCh4Cd\": \"16\",\r\n        \"WHAgtGIIN\": null,\r\n        \"FTIN\": \"12345\",\r\n        \"Country\": \"AL\"\r\n    },\r\n    \"IsForeign\": true,\r\n    \"USAddress\": {\r\n        \"Address1\": \"3576 AIRPORT WAY\",\r\n        \"Address2\": \"UNIT 9\",\r\n        \"City\": \"FAIRBANKS\",\r\n        \"State\": \"AK\",\r\n        \"ZipCd\": \"99709\"\r\n    },\r\n    \"ForeignAddress\": {\r\n        \"Address1\": \"120 Bremner Blvd\",\r\n        \"Address2\": \"Suite 800\",\r\n        \"City\": \"Toronto\",\r\n        \"ProvinceOrStateNm\": \"Ontario\",\r\n        \"Country\": \"CA\",\r\n        \"PostalCd\": \"4168682600\"\r\n    },\r\n    \"ACADetails\": {\r\n        \"FirstName\": \"Kingston\",\r\n        \"MiddleName\": \"Walman\",\r\n        \"LastName\": \"ADMINRATOR\",\r\n        \"Suffix\": \"Jr\",\r\n        \"Phone\": \"8834578906\",\r\n        \"IsGovernmentalUnit\": true\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1.7.3/Business/Create",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1.7.3",
+								"Business",
+								"Create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RequestByUrl - Request by default business",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set('Payee_ref', \"Pe\"+_.random(10000, 99999));"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accesstoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Requester\": {\r\n       \r\n        \"TIN\": null,\r\n        \"DBAId\": null,\r\n        \"DBARef\": null\r\n    },\r\n    \"Recipient\": {\r\n        \"PayeeRef\": \"{{Payee_ref}}\",\r\n        \"Name\": null,\r\n        \"IsTINMatching\": false\r\n    },\r\n    \"Customization\": {\r\n        \"BusinessLogoUrl\": \"https://www.spanenterprises.com/Content/Images/span.png\",\r\n        \"LogoPosition\": \"CENTER\",\r\n        \"InterviewFlow\": true,\r\n        \"PrimaryColor\": \"#1be6f5\",\r\n        \"SecondaryColor\": \"#9c9276\",\r\n        \"ShowDownloadPage\": true\r\n        \r\n    },\r\n    \"RedirectUrls\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1.7.3/WhCertificate/RequestByUrl",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1.7.3",
+								"WhCertificate",
+								"RequestByUrl"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RequestByUrl - Request by new business id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accesstoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Requester\": {\r\n       \"BusinessId\": \"{{BusinessId}}\",\r\n        \"TIN\": null,\r\n        \"DBAId\": null,\r\n        \"DBARef\": null\r\n    },\r\n    \"Recipient\": {\r\n        \"PayeeRef\": \"{{Payee_ref}}\",\r\n        \"Name\": null,\r\n        \"IsTINMatching\": false\r\n    },\r\n    \"Customization\": {\r\n        \"BusinessLogoUrl\": \"https://www.spanenterprises.com/Content/Images/span.png\",\r\n        \"LogoPosition\": \"CENTER\",\r\n        \"InterviewFlow\": true,\r\n        \"PrimaryColor\": \"#1be6f5\",\r\n        \"SecondaryColor\": \"#9c9276\",\r\n        \"ShowDownloadPage\": true\r\n        \r\n    },\r\n    \"RedirectUrls\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1.7.3/WhCertificate/RequestByUrl",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1.7.3",
+								"WhCertificate",
+								"RequestByUrl"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RequestByUrl - Request by requester as null",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accesstoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Requester\": null,\r\n    \"Recipient\": {\r\n        \"PayeeRef\": \"{{Payee_ref}}\",\r\n        \"Name\": null,\r\n        \"IsTINMatching\": false\r\n    },\r\n    \"Customization\": {\r\n        \"BusinessLogoUrl\": \"https://www.spanenterprises.com/Content/Images/span.png\",\r\n        \"LogoPosition\": \"CENTER\",\r\n        \"InterviewFlow\": true,\r\n        \"PrimaryColor\": \"#1be6f5\",\r\n        \"SecondaryColor\": \"#9c9276\",\r\n        \"ShowDownloadPage\": true\r\n        \r\n    },\r\n    \"RedirectUrls\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1.7.3/WhCertificate/RequestByUrl",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1.7.3",
+								"WhCertificate",
+								"RequestByUrl"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RequestByUrl - Request by requester as empty object",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accesstoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n     \"Requester\": {\r\n      \r\n      \r\n    },\r\n    \"Recipient\": {\r\n        \"PayeeRef\": \"{{Payee_ref}}\",\r\n        \"Name\": null,\r\n        \"IsTINMatching\": false\r\n    },\r\n    \"Customization\": {\r\n        \"BusinessLogoUrl\": \"https://www.spanenterprises.com/Content/Images/span.png\",\r\n        \"LogoPosition\": \"CENTER\",\r\n        \"InterviewFlow\": true,\r\n        \"PrimaryColor\": \"#1be6f5\",\r\n        \"SecondaryColor\": \"#9c9276\",\r\n        \"ShowDownloadPage\": true\r\n        \r\n    },\r\n    \"RedirectUrls\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1.7.3/WhCertificate/RequestByUrl",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1.7.3",
+								"WhCertificate",
+								"RequestByUrl"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RequestByUrl - Request without 'requester' Object",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accesstoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \r\n    \"Recipient\": {\r\n        \"PayeeRef\": \"{{Payee_ref}}\",\r\n        \"Name\": null,\r\n        \"IsTINMatching\": false\r\n    },\r\n    \"Customization\": {\r\n        \"BusinessLogoUrl\": \"https://www.spanenterprises.com/Content/Images/span.png\",\r\n        \"LogoPosition\": \"CENTER\",\r\n        \"InterviewFlow\": true,\r\n        \"PrimaryColor\": \"#1be6f5\",\r\n        \"SecondaryColor\": \"#9c9276\",\r\n        \"ShowDownloadPage\": true\r\n        \r\n    },\r\n    \"RedirectUrls\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1.7.3/WhCertificate/RequestByUrl",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1.7.3",
+								"WhCertificate",
+								"RequestByUrl"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RequestByUrl - Request with payeeref as null",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accesstoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Requester\": {\r\n       \"BusinessId\": null,\r\n        \"TIN\": null,\r\n        \"DBAId\": null,\r\n        \"DBARef\": null\r\n    },\r\n    \"Recipient\": {\r\n        \"PayeeRef\": null,\r\n        \"Name\": null,\r\n        \"IsTINMatching\": false\r\n    },\r\n    \"Customization\": {\r\n        \"BusinessLogoUrl\": \"https://www.spanenterprises.com/Content/Images/span.png\",\r\n        \"LogoPosition\": \"CENTER\",\r\n        \"InterviewFlow\": true,\r\n        \"PrimaryColor\": \"#1be6f5\",\r\n        \"SecondaryColor\": \"#9c9276\",\r\n        \"ShowDownloadPage\": true\r\n        \r\n    },\r\n    \"RedirectUrls\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1.7.3/WhCertificate/RequestByUrl",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1.7.3",
+								"WhCertificate",
+								"RequestByUrl"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RequestByUrl - Request with name as null",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accesstoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Requester\": {\r\n       \"BusinessId\": null,\r\n        \"TIN\": null,\r\n        \"DBAId\": null,\r\n        \"DBARef\": null\r\n    },\r\n    \"Recipient\": {\r\n        \"PayeeRef\": \"{{Payee_ref}}\",\r\n        \"Name\": null,\r\n        \"IsTINMatching\": false\r\n    },\r\n    \"Customization\": {\r\n        \"BusinessLogoUrl\": \"https://www.spanenterprises.com/Content/Images/span.png\",\r\n        \"LogoPosition\": \"CENTER\",\r\n        \"InterviewFlow\": true,\r\n        \"PrimaryColor\": \"#1be6f5\",\r\n        \"SecondaryColor\": \"#9c9276\",\r\n        \"ShowDownloadPage\": true\r\n        \r\n    },\r\n    \"RedirectUrls\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1.7.3/WhCertificate/RequestByUrl",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1.7.3",
+								"WhCertificate",
+								"RequestByUrl"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RequestByUrl - Request with TINMatching as false",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accesstoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Requester\": {\r\n       \"BusinessId\": null,\r\n        \"TIN\": null,\r\n        \"DBAId\": null,\r\n        \"DBARef\": null\r\n    },\r\n    \"Recipient\": {\r\n        \"PayeeRef\": \"{{Payee_ref}}\",\r\n        \"Name\": null,\r\n        \"IsTINMatching\": false\r\n    },\r\n    \"Customization\": {\r\n        \"BusinessLogoUrl\": \"https://www.spanenterprises.com/Content/Images/span.png\",\r\n        \"LogoPosition\": \"CENTER\",\r\n        \"InterviewFlow\": true,\r\n        \"PrimaryColor\": \"#1be6f5\",\r\n        \"SecondaryColor\": \"#9c9276\",\r\n        \"ShowDownloadPage\": true\r\n        \r\n    },\r\n    \"RedirectUrls\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1.7.3/WhCertificate/RequestByUrl",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1.7.3",
+								"WhCertificate",
+								"RequestByUrl"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RequestByUrl - Request with TINMatching as true",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accesstoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Requester\": {\r\n       \"BusinessId\": null,\r\n        \"TIN\": null,\r\n        \"DBAId\": null,\r\n        \"DBARef\": null\r\n    },\r\n    \"Recipient\": {\r\n        \"PayeeRef\": \"{{Payee_ref}}\",\r\n        \"Name\": null,\r\n        \"IsTINMatching\": true\r\n    },\r\n    \"Customization\": {\r\n        \"BusinessLogoUrl\": \"https://www.spanenterprises.com/Content/Images/span.png\",\r\n        \"LogoPosition\": \"CENTER\",\r\n        \"InterviewFlow\": true,\r\n        \"PrimaryColor\": \"#1be6f5\",\r\n        \"SecondaryColor\": \"#9c9276\",\r\n        \"ShowDownloadPage\": true\r\n        \r\n    },\r\n    \"RedirectUrls\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1.7.3/WhCertificate/RequestByUrl",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1.7.3",
+								"WhCertificate",
+								"RequestByUrl"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RequestByUrl - Request with Recipient object as empty string",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accesstoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Requester\": {\r\n       \"BusinessId\": null,\r\n        \"TIN\": null,\r\n        \"DBAId\": null,\r\n        \"DBARef\": null\r\n    },\r\n    \"Recipient\": {\r\n        \"PayeeRef\": \"\",\r\n        \"Name\": \"\",\r\n        \"IsTINMatching\": false\r\n    },\r\n    \"Customization\": {\r\n        \"BusinessLogoUrl\": \"https://www.spanenterprises.com/Content/Images/span.png\",\r\n        \"LogoPosition\": \"CENTER\",\r\n        \"InterviewFlow\": true,\r\n        \"PrimaryColor\": \"#1be6f5\",\r\n        \"SecondaryColor\": \"#9c9276\",\r\n        \"ShowDownloadPage\": true\r\n        \r\n    },\r\n    \"RedirectUrls\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1.7.3/WhCertificate/RequestByUrl",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1.7.3",
+								"WhCertificate",
+								"RequestByUrl"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RequestByUrl - Request with customization object as null",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accesstoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Requester\": {\r\n       \"BusinessId\": null,\r\n        \"TIN\": null,\r\n        \"DBAId\": null,\r\n        \"DBARef\": null\r\n    },\r\n   \"Recipient\": {\r\n        \"PayeeRef\": \"{{Payee_ref}}\",\r\n        \"Name\": null,\r\n        \"IsTINMatching\": false\r\n    },\r\n    \"Customization\":  null,\r\n    \"RedirectUrls\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1.7.3/WhCertificate/RequestByUrl",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1.7.3",
+								"WhCertificate",
+								"RequestByUrl"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RequestByUrl - Request without customization object",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accesstoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Requester\": {\r\n       \"BusinessId\": null,\r\n        \"TIN\": null,\r\n        \"DBAId\": null,\r\n        \"DBARef\": null\r\n    },\r\n   \"Recipient\": {\r\n        \"PayeeRef\": \"{{Payee_ref}}\",\r\n        \"Name\": null,\r\n        \"IsTINMatching\": false\r\n    },\r\n   \r\n    \"RedirectUrls\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1.7.3/WhCertificate/RequestByUrl",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1.7.3",
+								"WhCertificate",
+								"RequestByUrl"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RequestByUrl - Request with BusinessLogoUrl as null",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accesstoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Requester\": {\r\n       \r\n        \"TIN\": null,\r\n        \"DBAId\": null,\r\n        \"DBARef\": null\r\n    },\r\n    \"Recipient\": {\r\n        \"PayeeRef\": \"{{Payee_ref}}\",\r\n        \"Name\": null,\r\n        \"IsTINMatching\": false\r\n    },\r\n    \"Customization\": {\r\n        \"BusinessLogoUrl\": null,\r\n        \"LogoPosition\": \"CENTER\",\r\n        \"InterviewFlow\": true,\r\n        \"PrimaryColor\": \"#1be6f5\",\r\n        \"SecondaryColor\": \"#9c9276\",\r\n        \"ShowDownloadPage\": true\r\n        \r\n    },\r\n    \"RedirectUrls\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1.7.3/WhCertificate/RequestByUrl",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1.7.3",
+								"WhCertificate",
+								"RequestByUrl"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RequestByUrl - Request with Customization as empty string",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accesstoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Requester\": {\r\n       \r\n        \"TIN\": null,\r\n        \"DBAId\": null,\r\n        \"DBARef\": null\r\n    },\r\n    \"Recipient\": {\r\n        \"PayeeRef\": \"{{Payee_ref}}\",\r\n        \"Name\": null,\r\n        \"IsTINMatching\": false\r\n    },\r\n    \"Customization\": \"\",\r\n    \"RedirectUrls\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1.7.3/WhCertificate/RequestByUrl",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1.7.3",
+								"WhCertificate",
+								"RequestByUrl"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RequestByUrl - Request with Recipient object as empty string",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accesstoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Requester\": {\r\n       \r\n        \"TIN\": null,\r\n        \"DBAId\": null,\r\n        \"DBARef\": null\r\n    },\r\n    \"Recipient\": \"\",\r\n    \"Customization\": {\r\n        \"BusinessLogoUrl\": null,\r\n        \"LogoPosition\": \"CENTER\",\r\n        \"InterviewFlow\": true,\r\n        \"PrimaryColor\": \"#1be6f5\",\r\n        \"SecondaryColor\": \"#9c9276\",\r\n        \"ShowDownloadPage\": true\r\n        \r\n    },\r\n    \"RedirectUrls\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1.7.3/WhCertificate/RequestByUrl",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1.7.3",
+								"WhCertificate",
+								"RequestByUrl"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RequestByUrl - Request with logo position as null",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accesstoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Requester\": {\r\n       \"BusinessId\": null,\r\n        \"TIN\": null,\r\n        \"DBAId\": null,\r\n        \"DBARef\": null\r\n    },\r\n    \"Recipient\": {\r\n        \"PayeeRef\": \"{{Payee_ref}}\",\r\n        \"Name\": null,\r\n        \"IsTINMatching\": false\r\n    },\r\n    \"Customization\": {\r\n        \"BusinessLogoUrl\": \"https://www.spanenterprises.com/Content/Images/span.png\",\r\n        \"LogoPosition\": null,\r\n        \"InterviewFlow\": true,\r\n        \"PrimaryColor\": \"#1be6f5\",\r\n        \"SecondaryColor\": \"#9c9276\",\r\n        \"ShowDownloadPage\": true\r\n        \r\n    },\r\n    \"RedirectUrls\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1.7.3/WhCertificate/RequestByUrl",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1.7.3",
+								"WhCertificate",
+								"RequestByUrl"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RequestByUrl - Request with  Primary & SecondayColor as null",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accesstoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Requester\": {\r\n       \"BusinessId\": null,\r\n        \"TIN\": null,\r\n        \"DBAId\": null,\r\n        \"DBARef\": null\r\n    },\r\n    \"Recipient\": {\r\n        \"PayeeRef\": \"{{Payee_ref}}\",\r\n        \"Name\": null,\r\n        \"IsTINMatching\": false\r\n    },\r\n    \"Customization\": {\r\n        \"BusinessLogoUrl\": \"https://www.spanenterprises.com/Content/Images/span.png\",\r\n        \"LogoPosition\": null,\r\n        \"InterviewFlow\": false,\r\n        \"PrimaryColor\": null,\r\n        \"SecondaryColor\": null,\r\n        \"ShowDownloadPage\": true\r\n        \r\n    },\r\n    \"RedirectUrls\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1.7.3/WhCertificate/RequestByUrl",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1.7.3",
+								"WhCertificate",
+								"RequestByUrl"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RequestByUrl - Request with  RedirectUrl as null",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accesstoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Requester\": {\r\n       \"BusinessId\": null,\r\n        \"TIN\": null,\r\n        \"DBAId\": null,\r\n        \"DBARef\": null\r\n    },\r\n    \"Recipient\": {\r\n        \"PayeeRef\": \"{{Payee_ref}}\",\r\n        \"Name\": null,\r\n        \"IsTINMatching\": false\r\n    },\r\n    \"Customization\": {\r\n        \"BusinessLogoUrl\": \"https://www.spanenterprises.com/Content/Images/span.png\",\r\n        \"LogoPosition\": null,\r\n        \"InterviewFlow\": false,\r\n        \"PrimaryColor\": \"#1be6f5\",\r\n        \"SecondaryColor\": \"#9c9276\",\r\n        \"ShowDownloadPage\": false\r\n    },\r\n    \"RedirectUrls\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1.7.3/WhCertificate/RequestByUrl",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1.7.3",
+								"WhCertificate",
+								"RequestByUrl"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RequestByUrl - Request with  RedirectUrl given",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accesstoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Requester\": {\r\n       \"BusinessId\": null,\r\n        \"TIN\": null,\r\n        \"DBAId\": null,\r\n        \"DBARef\": null\r\n    },\r\n    \"Recipient\": {\r\n        \"PayeeRef\": \"{{Payee_ref}}\",\r\n        \"Name\": null,\r\n        \"IsTINMatching\": false\r\n    },\r\n    \"Customization\": {\r\n        \"BusinessLogoUrl\": \"https://www.spanenterprises.com/Content/Images/span.png\",\r\n        \"LogoPosition\": null,\r\n        \"InterviewFlow\": false,\r\n        \"PrimaryColor\": null,\r\n        \"SecondaryColor\": null,\r\n        \"ShowDownloadPage\": true\r\n        \r\n    },\r\n    \"RedirectUrls\": {\r\n      \"ReturnUrl\": \"https://example.com\",\r\n      \"CancelUrl\": \"https://example.com\",\r\n      \"RedirectTime\": 60\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1.7.3/WhCertificate/RequestByUrl",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1.7.3",
+								"WhCertificate",
+								"RequestByUrl"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RequestByUrl - Request without Redirecturl object",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accesstoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Requester\": {\r\n        \"BusinessId\": null,\r\n        \"TIN\": null,\r\n        \"DBAId\": null,\r\n        \"DBARef\": null\r\n    },\r\n    \"Recipient\": {\r\n        \"PayeeRef\": \"{{Payee_ref}}\",\r\n        \"Name\": null,\r\n        \"IsTINMatching\": false\r\n    },\r\n    \"Customization\": {\r\n        \"BusinessLogoUrl\": \"https://www.spanenterprises.com/Content/Images/span.png\",\r\n        \"LogoPosition\": \"CENTER\",\r\n        \"InterviewFlow\": true,\r\n        \"PrimaryColor\": \"#1be6f5\",\r\n        \"SecondaryColor\": \"#9c9276\",\r\n        \"ShowDownloadPage\": true\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1.7.3/WhCertificate/RequestByUrl",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1.7.3",
+								"WhCertificate",
+								"RequestByUrl"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "Create",
-			"event": [
+			"name": "WhCertificate - RequestByEmail",
+			"item": [
 				{
-					"listen": "prerequest",
-					"script": {
-						"exec": [
-							"// List of common valid EIN prefixes\r",
-							"const einPrefixes = [10,12,13,14,16,20,21,22,23,25,27,30,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,98,99];\r",
-							"\r",
-							"// Randomly select prefix\r",
-							"let prefix = einPrefixes[Math.floor(Math.random() * einPrefixes.length)];\r",
-							"// Pad prefix if needed\r",
-							"prefix = prefix.toString().padStart(2, '0');\r",
-							"\r",
-							"// Generate random 7 digits\r",
-							"let body = '';\r",
-							"for (let i = 0; i < 7; i++) {\r",
-							"    body += Math.floor(Math.random() * 10);\r",
-							"}\r",
-							"\r",
-							"// Combine for EIN\r",
-							"let ein = prefix + body;\r",
-							"\r",
-							"// Save as environment variable\r",
-							"pm.environment.set(\"randomEIN\", ein);\r",
-							""
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "{{accesstoken}}",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"BusinessNm\": \"{{$randomCompanyName}}\",\r\n    \"FirstNm\": null,\r\n    \"MiddleNm\": null,\r\n    \"LastNm\": null,\r\n    \"Suffix\": null,\r\n    \"PayerRef\": \"Union{{$randomInt}}\",\r\n    \"TradeNm\": \"Union Trades\",\r\n    \"IsDefaultBusiness\": true,\r\n    \"IsEIN\": false,   \r\n    \"EINorSSN\": \"{{randomEIN}}\",\r\n    \"Email\": \"james@sample.com\",\r\n    \"ContactNm\": \"James Smith\",\r\n    \"Phone\": \"6534567890\",\r\n    \"PhoneExtn\": \"123\",\r\n    \"Fax\": \"9834567890\",\r\n    \"BusinessType\": \"ESTE\",\r\n    \"SigningAuthority\": {\r\n        \"Name\": \"James Smith\",\r\n        \"Phone\": \"9934567890\",\r\n        \"BusinessMemberType\": \"ADMINISTRATOR\"\r\n    },\r\n    \"KindOfEmployer\": \"FEDERALGOVT\",\r\n    \"KindOfPayer\": \"REGULAR941\",\r\n    \"IsBusinessTerminated\": false,\r\n    \"Form1042SDetails\": {\r\n      \"WHAgtCh3Cd\": \"11\",\r\n      \"WHAgtCh4Cd\": \"16\",\r\n      \"WHAgtGIIN\": null,\r\n      \"FTIN\": \"12345\",\r\n      \"Country\": \"AL\"\r\n    },\r\n    \"IsForeign\": false,\r\n    \"USAddress\": {\r\n        \"Address1\": \"3576 AIRPORT WAY\",\r\n        \"Address2\": \"UNIT 9\",\r\n        \"City\": \"FAIRBANKS\",\r\n        \"State\": \"AK\",\r\n        \"ZipCd\": \"99709\"\r\n    },\r\n    \"ForeignAddress\": null,\r\n    \"ACADetails\": {\r\n      \"FirstName\": \"Kingston\",\r\n      \"MiddleName\": \"Walman\",\r\n      \"LastName\": \"ADMINRATOR\",\r\n      \"Suffix\": \"Jr\",\r\n      \"Phone\": \"8834578906\",\r\n      \"IsGovernmentalUnit\": true\r\n    }\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+					"name": "JWT",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"//Base64 URL encoding\r",
+									"function base64url(source) {\r",
+									"  // Encode in classical base64\r",
+									"  encodedSource = CryptoJS.enc.Base64.stringify(source);\r",
+									"\r",
+									"  // Remove padding equal characters\r",
+									"  encodedSource = encodedSource.replace(/=+$/, '');\r",
+									"\r",
+									"  // Replace characters according to base64url specifications\r",
+									"  encodedSource = encodedSource.replace(/\\+/g, '-');\r",
+									"  encodedSource = encodedSource.replace(/\\//g, '_');\r",
+									"\r",
+									"  return encodedSource;\r",
+									"};\r",
+									"\r",
+									"//To generate Header and Payload\r",
+									"\r",
+									"var header = {\r",
+									"  \"alg\": \"HS256\",\r",
+									"  \"typ\": \"JWT\"\r",
+									"};\r",
+									"\r",
+									"var stringifiedHeader = CryptoJS.enc.Utf8.parse(JSON.stringify(header));\r",
+									"var encodedHeader = base64url(stringifiedHeader);\r",
+									"\r",
+									"//Unix epoch time formula\r",
+									"var time = Math.floor(new Date().getTime()/1000.0); \r",
+									"\r",
+									"var payloaddata = {\r",
+									"  \"iss\": pm.environment.get('clientid'),\r",
+									"  \"sub\": pm.environment.get('clientid'),\r",
+									"  \"aud\": pm.environment.get('usertoken'),\r",
+									"  \"iat\": time-45\r",
+									"  \r",
+									"};\r",
+									"console.log(time);\r",
+									"\r",
+									"var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(payloaddata));\r",
+									"var encodedPayloadData = base64url(stringifiedData);\r",
+									"\r",
+									"var headerPayload = encodedHeader + \".\" + encodedPayloadData;\r",
+									"\r",
+									"//Client secret ID - To generate JWS\r",
+									"\r",
+									"var secretID = pm.environment.get('secret');\r",
+									"\r",
+									"var signature = CryptoJS.HmacSHA256(headerPayload, secretID);\r",
+									"signature = base64url(signature);\r",
+									"\r",
+									"var jws = headerPayload + \".\" + signature;\r",
+									"\r",
+									"console.log(jws);\r",
+									"\r",
+									"pm.environment.set(\"auth\", jws);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"responseJSON=JSON.parse(responseBody);\r",
+									"pm.environment.set(\"accesstoken\", responseJSON.AccessToken);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
 						}
-					}
-				},
-				"url": {
-					"raw": "https://testapi.taxbandits.com/v1.7.3/Business/Create",
-					"protocol": "https",
-					"host": [
-						"testapi",
-						"taxbandits",
-						"com"
 					],
-					"path": [
-						"v1.7.3",
-						"Business",
-						"Create"
-					]
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authentication",
+								"value": "{{auth}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseURL}}",
+							"host": [
+								"{{BaseURL}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Business Create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"Status code is 200\"]=responseCode.code===200;\r",
+									"var responseJSON;\r",
+									"responseJSON=JSON.parse(responseBody);\r",
+									"pm.environment.set(\"BusinessId\", responseJSON.BusinessId);"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set('Payer_ref', \"Pe\"+_.random(6666, 16000));\r",
+									"\r",
+									"const excludedNumbers = [7, 8, 9, 17, 18, 19, 28, 29, 49, 69, 70, 78, 79, 89];\r",
+									"\r",
+									"function generateRandomEIN() {\r",
+									"    let ein;\r",
+									"    do {\r",
+									"        ein = `${Math.floor(Math.random() * 90) + 10}-${Math.floor(Math.random() * 8999999) + 1000000}`; // generate a random EIN number in the format XX-YYYYYYY\r",
+									"    } while (excludedNumbers.some(n => ein.startsWith(n))); // repeat until a non-excluded number is generated\r",
+									"    return ein;\r",
+									"}\r",
+									"\r",
+									"const randomEIN = generateRandomEIN();\r",
+									"pm.environment.set('randomNumer_EIN', randomEIN);\r",
+									"\r",
+									"function generateRandomSSN() {\r",
+									"    let ssn;\r",
+									"    do {\r",
+									"        ssn = `${Math.floor(Math.random() * 900) + 100}-${Math.floor(Math.random() * 90) + 10}-${Math.floor(Math.random() * 9000) + 1000}`; // generate a random SSN number in the format XXX-XX-XXXX\r",
+									"    } while (ssn.startsWith('666') || ssn.startsWith('999') || ssn.startsWith('000') || ssn.startsWith('9')); // repeat until a non-excluded number is generated\r",
+									"    return ssn;\r",
+									"}\r",
+									"\r",
+									"const randomSSN = generateRandomSSN();\r",
+									"pm.environment.set('randomNumer_SSN', randomSSN);\r",
+									"\r",
+									"\r",
+									"\r",
+									"function randomString(minValue, maxValue, dataSet = 'abcdefgh0123456789ABCDEFGVWXYZ') {\r",
+									"    if (!minValue) {\r",
+									"        minValue = 4;\r",
+									"        maxValue = 10;\r",
+									"    }\r",
+									"\r",
+									"    if (!maxValue) {\r",
+									"        maxValue = minValue;\r",
+									"    }\r",
+									"\r",
+									"    let length = _.random(minValue, maxValue),\r",
+									"        randomString = \"\";\r",
+									"\r",
+									"    for (let i = 0; i < length; i++)\r",
+									"        randomString += dataSet.charAt(Math.floor(Math.random() * dataSet.length));\r",
+									"    return randomString;\r",
+									"}\r",
+									"\r",
+									"pm.variables.set('payerref', randomString());\r",
+									"pm.variables.set('accountno', randomString());\r",
+									"\r",
+									"function generateRandomPhoneNumber() {\r",
+									"    var phoneNumber = '9'; // Start with 9 as the first digit\r",
+									"    for (var i = 0; i < 9; i++) {\r",
+									"        phoneNumber += Math.floor(Math.random() * 10);\r",
+									"    }\r",
+									"    return phoneNumber;\r",
+									"}\r",
+									"\r",
+									"var randomPhoneNumber = generateRandomPhoneNumber();\r",
+									"console.log(randomPhoneNumber);\r",
+									"\r",
+									"pm.variables.set('phoneNumber', generateRandomFaxNumber());\r",
+									"\r",
+									"function generateRandomEmail() {\r",
+									"    let randomNumber = Math.floor(Math.random() * 10000); // Generate a random 4-digit number\r",
+									"    let email = `prince.k+${randomNumber}@spantechnologyservices.com`;\r",
+									"    return email;\r",
+									"}\r",
+									"\r",
+									"var randomEmail = generateRandomEmail();\r",
+									"console.log(randomEmail);\r",
+									"\r",
+									"pm.variables.set('RandomEmail', generateRandomEmail());\r",
+									"\r",
+									"function generateRandomFaxNumber() {\r",
+									"    var FaxNumber = '9'; // Start with 9 as the first digit\r",
+									"    for (var i = 0; i < 9; i++) {\r",
+									"        FaxNumber += Math.floor(Math.random() * 10);\r",
+									"    }\r",
+									"    return FaxNumber;\r",
+									"}\r",
+									"\r",
+									"var randomFaxNumber = generateRandomPhoneNumber();\r",
+									"console.log(randomFaxNumber);\r",
+									"\r",
+									"pm.variables.set('faxNumber', generateRandomFaxNumber());\r",
+									"\r",
+									"var i = pm.environment.get('i')\r",
+									"console.log(\"i\", i)\r",
+									"i ? pm.environment.set('i', i+1) : pm.environment.set('i', 1);"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accesstoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL29hdXRoLnNwYW51YXQuY29tL3YyLyIsInN1YiI6Ijg1YmJmMTdlMTgzZDUwNzMiLCJhdWQiOiJiYzI2MmZhNGVjNDI0YTU4YmNkMzg0MzUxMTkyMTc2NiIsImlhdCI6MTY5MzMwNTg2OCwiZXhwIjoxNjkzMzA5NDY4fQ.3HMT181e9UrxeW50PfOFDENFFFKBuCkhbR0xBPOZLYA",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "{{accesstoken}}"
+							},
+							{
+								"key": "Referer",
+								"value": "1B04EC44-78AF-4127-88AD-1B1A6D433876"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"BusinessNm\": \"{{$randomCompanyName}}\",\r\n    \"FirstNm\": \"Jamie\",\r\n    \"MiddleNm\": null,\r\n    \"LastNm\": \"M\",\r\n    \"Suffix\": null,\r\n    \"PayerRef\": \"{{Payer_ref}}\",\r\n    \"TradeNm\": \"{{$randomBsBuzz}}\",\r\n    \"IsDefaultBusiness\": true,\r\n    \"IsEIN\": true,\r\n    \"EINorSSN\": \"{{randomNumer_EIN}}\",\r\n    \"Email\": \"jayashree.k+8557@spantechnologyservices.com\",\r\n    \"ContactNm\": \"{{$randomFirstName}}\",\r\n    \"Phone\": \"6534567890\",\r\n    \"PhoneExtn\": \"123\",\r\n    \"Fax\": \"9834567890\",\r\n    \"BusinessType\": \"ESTE\",\r\n    \"SigningAuthority\": {\r\n        \"Name\": \"James Smith\",\r\n        \"Phone\": \"9934567890\",\r\n        \"BusinessMemberType\": \"ADMINISTRATOR\"\r\n    },\r\n    \"KindOfEmployer\": \"FEDERALGOVT\",\r\n    \"KindOfPayer\": \"REGULAR941\",\r\n    \"IsBusinessTerminated\": false,\r\n    \"Form1042SDetails\": {\r\n        \"WHAgtCh3Cd\": \"11\",\r\n        \"WHAgtCh4Cd\": \"16\",\r\n        \"WHAgtGIIN\": null,\r\n        \"FTIN\": \"12345\",\r\n        \"Country\": \"AL\"\r\n    },\r\n    \"IsForeign\": true,\r\n    \"USAddress\": {\r\n        \"Address1\": \"3576 AIRPORT WAY\",\r\n        \"Address2\": \"UNIT 9\",\r\n        \"City\": \"FAIRBANKS\",\r\n        \"State\": \"AK\",\r\n        \"ZipCd\": \"99709\"\r\n    },\r\n    \"ForeignAddress\": {\r\n        \"Address1\": \"120 Bremner Blvd\",\r\n        \"Address2\": \"Suite 800\",\r\n        \"City\": \"Toronto\",\r\n        \"ProvinceOrStateNm\": \"Ontario\",\r\n        \"Country\": \"CA\",\r\n        \"PostalCd\": \"4168682600\"\r\n    },\r\n    \"ACADetails\": {\r\n        \"FirstName\": \"Kingston\",\r\n        \"MiddleName\": \"Walman\",\r\n        \"LastName\": \"ADMINRATOR\",\r\n        \"Suffix\": \"Jr\",\r\n        \"Phone\": \"8834578906\",\r\n        \"IsGovernmentalUnit\": true\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1.7.3/Business/Create",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1.7.3",
+								"Business",
+								"Create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RequestByEmail - Request by default business",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set('Payee_ref', \"Pe\"+_.random(10000, 99999));"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accesstoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"SubmissionManifest\": {\r\n        \"IsTINMatching\": false\r\n    },\r\n    \"Requester\": {\r\n        \"BusinessId\": null,\r\n        \"PayerRef\": null\r\n    },\r\n    \"Recipients\": [\r\n        {\r\n            \"PayeeRef\": \"{{Payee_ref}}\",\r\n            \"Name\": \"Jordan Henry\",\r\n            \"Email\": \"jayashree.k+{{$randomInt}}@spantechnologyservices.com\"\r\n        }\r\n    ],\r\n    \"WebhookRef\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1.7.3/WhCertificate/RequestByEmail",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1.7.3",
+								"WhCertificate",
+								"RequestByEmail"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RequestByEmail - Request by new business id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accesstoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"SubmissionManifest\": {\r\n        \"IsTINMatching\": false\r\n    },\r\n    \"Requester\": {\r\n        \"BusinessId\": \"{{BusinessId}}\",\r\n        \"PayerRef\": null\r\n    },\r\n    \"Recipients\": [\r\n        {\r\n            \"PayeeRef\": \"{{Payee_ref}}\",\r\n            \"Name\": \"Jordan Henry\",\r\n            \"Email\": \"jayashree.k+{{$randomInt}}@spantechnologyservices.com\"\r\n        }\r\n    ],\r\n    \"WebhookRef\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1.7.3/WhCertificate/RequestByEmail",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1.7.3",
+								"WhCertificate",
+								"RequestByEmail"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RequestByEmail - Request by requester as null",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accesstoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"SubmissionManifest\": {\r\n        \"IsTINMatching\": false\r\n    },\r\n    \"Requester\":  null,\r\n    \"Recipients\": [\r\n        {\r\n            \"PayeeRef\": \"{{Payee_ref}}\",\r\n            \"Name\": \"Jordan Henry\",\r\n            \"Email\": \"jayashree.k+{{$randomInt}}@spantechnologyservices.com\"\r\n        }\r\n    ],\r\n    \"WebhookRef\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1.7.3/WhCertificate/RequestByEmail",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1.7.3",
+								"WhCertificate",
+								"RequestByEmail"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RequestByEmail - Request by requester as empty object",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accesstoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"SubmissionManifest\": {\r\n        \"IsTINMatching\": false\r\n    },\r\n    \"Requester\": {\r\n      \r\n    },\r\n    \"Recipients\": [\r\n        {\r\n            \"PayeeRef\": \"{{Payee_ref}}\",\r\n            \"Name\": \"Jordan Henry\",\r\n            \"Email\": \"jayashree.k+{{$randomInt}}@spantechnologyservices.com\"\r\n        }\r\n    ],\r\n    \"WebhookRef\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1.7.3/WhCertificate/RequestByEmail",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1.7.3",
+								"WhCertificate",
+								"RequestByEmail"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RequestByEmail - Request without 'requester' Object",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accesstoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"SubmissionManifest\": {\r\n        \"IsTINMatching\": false\r\n    },\r\n   \r\n    \"Recipients\": [\r\n        {\r\n            \"PayeeRef\": \"{{Payee_ref}}\",\r\n            \"Name\": \"Jordan Henry\",\r\n            \"Email\": \"jayashree.k+{{$randomInt}}@spantechnologyservices.com\"\r\n        }\r\n    ],\r\n    \"WebhookRef\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1.7.3/WhCertificate/RequestByEmail",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1.7.3",
+								"WhCertificate",
+								"RequestByEmail"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RequestByEmail - Request with payeeref as null",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accesstoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"SubmissionManifest\": {\r\n        \"IsTINMatching\": false\r\n    },\r\n    \"Requester\": {\r\n        \"BusinessId\": null,\r\n        \"PayerRef\": null\r\n    },\r\n    \"Recipients\": [\r\n        {\r\n            \"PayeeRef\": null,\r\n            \"Name\": \"Jordan Henry\",\r\n            \"Email\": \"jayashree.k+{{$randomInt}}@spantechnologyservices.com\"\r\n        }\r\n    ],\r\n    \"WebhookRef\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1.7.3/WhCertificate/RequestByEmail",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1.7.3",
+								"WhCertificate",
+								"RequestByEmail"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RequestByEmail - Request with email as null",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accesstoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"SubmissionManifest\": {\r\n        \"IsTINMatching\": false\r\n    },\r\n    \"Requester\": {\r\n        \"BusinessId\": null,\r\n        \"PayerRef\": null\r\n    },\r\n    \"Recipients\": [\r\n        {\r\n            \"PayeeRef\": \"{{Payee_ref}}\",\r\n            \"Name\": \"Jordan Henry\",\r\n            \"Email\": null\r\n        }\r\n    ],\r\n    \"WebhookRef\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1.7.3/WhCertificate/RequestByEmail",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1.7.3",
+								"WhCertificate",
+								"RequestByEmail"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RequestByemail- Request with SubmissionManifest as null",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accesstoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"SubmissionManifest\": null,\r\n    \"Requester\": {\r\n        \"BusinessId\": null,\r\n        \"PayerRef\": null\r\n    },\r\n    \"Recipients\": [\r\n        {\r\n            \"PayeeRef\": \"{{Payee_ref}}\",\r\n            \"Name\": \"Jordan Henry\",\r\n            \"Email\": \"jayashree.k+{{$randomInt}}@spantechnologyservices.com\"\r\n        }\r\n    ],\r\n    \"WebhookRef\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1.7.3/WhCertificate/RequestByEmail",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1.7.3",
+								"WhCertificate",
+								"RequestByEmail"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RequestByEmail - Request with TINMatching as true",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accesstoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"SubmissionManifest\": {\r\n        \"IsTINMatching\": true\r\n    },\r\n    \"Requester\": {\r\n        \"BusinessId\": null,\r\n        \"PayerRef\": null\r\n    },\r\n    \"Recipients\": [\r\n        {\r\n            \"PayeeRef\": \"{{Payee_ref}}\",\r\n            \"Name\": \"Jordan Henry\",\r\n            \"Email\": \"jayashree.k+{{$randomInt}}@spantechnologyservices.com\"\r\n        }\r\n    ],\r\n    \"WebhookRef\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1.7.3/WhCertificate/RequestByEmail",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1.7.3",
+								"WhCertificate",
+								"RequestByEmail"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RequestByEmail - Request with Recipient object as empty string",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accesstoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"SubmissionManifest\": {\r\n        \"IsTINMatching\": false\r\n    },\r\n    \"Requester\": {\r\n        \"BusinessId\": null,\r\n        \"PayerRef\": null\r\n    },\r\n    \"Recipients\": \"\",\r\n    \"WebhookRef\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1.7.3/WhCertificate/RequestByEmail",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1.7.3",
+								"WhCertificate",
+								"RequestByEmail"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RequestByEmail - Request with customization object as null",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accesstoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"SubmissionManifest\": null,\r\n    \"Requester\": {\r\n        \"BusinessId\": null,\r\n        \"PayerRef\": null\r\n    },\r\n    \"Recipients\": [\r\n        {\r\n            \"PayeeRef\": \"{{Payee_ref}}\",\r\n            \"Name\": \"Jordan Henry\",\r\n            \"Email\": \"jayashree.k+{{$randomInt}}@spantechnologyservices.com\"\r\n        }\r\n    ],\r\n    \"Customization\":null,\r\n    \"WebhookRef\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1.7.3/WhCertificate/RequestByEmail",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1.7.3",
+								"WhCertificate",
+								"RequestByEmail"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RequestByEmail - Request without customization object",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accesstoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"SubmissionManifest\": null,\r\n    \"Requester\": {\r\n        \"BusinessId\": null,\r\n        \"PayerRef\": null\r\n    },\r\n    \"Recipients\": [\r\n        {\r\n            \"PayeeRef\": \"{{Payee_ref}}\",\r\n            \"Name\": \"Jordan Henry\",\r\n            \"Email\": \"jayashree.k+{{$randomInt}}@spantechnologyservices.com\"\r\n        }\r\n    ],\r\n    \r\n    \"WebhookRef\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1.7.3/WhCertificate/RequestByEmail",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1.7.3",
+								"WhCertificate",
+								"RequestByEmail"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RequestByEmail - Request with BusinessLogoUrl as null",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accesstoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"SubmissionManifest\": null,\r\n    \"Requester\": {\r\n        \"BusinessId\": null,\r\n        \"PayerRef\": null\r\n    },\r\n    \"Recipients\": [\r\n        {\r\n            \"PayeeRef\": \"{{Payee_ref}}\",\r\n            \"Name\": \"Jordan Henry\",\r\n            \"Email\": \"jayashree.k+{{$randomInt}}@spantechnologyservices.com\"\r\n        }\r\n    ],\r\n    \"Customization\": {\r\n        \"BusinessLogoUrl\": null,\r\n        \"LogoPosition\": \"CENTER\",\r\n        \"InterviewFlow\": true,\r\n        \"PrimaryColor\": \"#1be6f5\",\r\n        \"SecondaryColor\": \"#9c9276\",\r\n        \"ShowDownloadPage\": true\r\n        \r\n    },\r\n    \"WebhookRef\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1.7.3/WhCertificate/RequestByEmail",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1.7.3",
+								"WhCertificate",
+								"RequestByEmail"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RequestByEmail- Request with Customization as empty string",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accesstoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"SubmissionManifest\": null,\r\n    \"Requester\": {\r\n        \"BusinessId\": null,\r\n        \"PayerRef\": null\r\n    },\r\n    \"Recipients\": [\r\n        {\r\n            \"PayeeRef\": \"{{Payee_ref}}\",\r\n            \"Name\": \"Jordan Henry\",\r\n            \"Email\": \"jayashree.k+{{$randomInt}}@spantechnologyservices.com\"\r\n        }\r\n    ],\r\n    \"Customization\": null,\r\n    \"WebhookRef\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1.7.3/WhCertificate/RequestByEmail",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1.7.3",
+								"WhCertificate",
+								"RequestByEmail"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RequestByEmail - Request with Recipient object as empty string",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accesstoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"SubmissionManifest\": null,\r\n    \"Requester\": {\r\n        \"BusinessId\": null,\r\n        \"PayerRef\": null\r\n    },\r\n    \"Recipients\": \"\",\r\n    \"Customization\": {\r\n        \"BusinessLogoUrl\": null,\r\n        \"LogoPosition\": \"CENTER\",\r\n        \"InterviewFlow\": true,\r\n        \"PrimaryColor\": \"#1be6f5\",\r\n        \"SecondaryColor\": \"#9c9276\",\r\n        \"ShowDownloadPage\": true\r\n        \r\n    },\r\n    \"WebhookRef\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1.7.3/WhCertificate/RequestByEmail",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1.7.3",
+								"WhCertificate",
+								"RequestByEmail"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RequestByEmail - Request with logo position as null",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accesstoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"SubmissionManifest\": null,\r\n    \"Requester\": {\r\n        \"BusinessId\": null,\r\n        \"PayerRef\": null\r\n    },\r\n    \"Recipients\": [\r\n        {\r\n            \"PayeeRef\": \"{{Payee_ref}}\",\r\n            \"Name\": \"Jordan Henry\",\r\n            \"Email\": \"jayashree.k+{{$randomInt}}@spantechnologyservices.com\"\r\n        }\r\n    ],\r\n    \"Customization\": {\r\n        \"BusinessLogoUrl\": null,\r\n        \"LogoPosition\": \"CENTER\",\r\n        \"InterviewFlow\": true,\r\n        \"PrimaryColor\": \"#1be6f5\",\r\n        \"SecondaryColor\": \"#9c9276\",\r\n        \"ShowDownloadPage\": true\r\n        \r\n    },\r\n    \"WebhookRef\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1.7.3/WhCertificate/RequestByEmail",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1.7.3",
+								"WhCertificate",
+								"RequestByEmail"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RequestByEmail - Request with  Primary & SecondayColor as null",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accesstoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"SubmissionManifest\": null,\r\n    \"Requester\": {\r\n        \"BusinessId\": null,\r\n        \"PayerRef\": null\r\n    },\r\n    \"Recipients\": [\r\n        {\r\n            \"PayeeRef\": \"{{Payee_ref}}\",\r\n            \"Name\": \"Jordan Henry\",\r\n            \"Email\": \"jayashree.k+{{$randomInt}}@spantechnologyservices.com\"\r\n        }\r\n    ],\r\n    \"Customization\": {\r\n        \"BusinessLogoUrl\": null,\r\n        \"LogoPosition\": \"CENTER\",\r\n        \"InterviewFlow\": true,\r\n        \"PrimaryColor\": null,\r\n        \"SecondaryColor\": null\r\n    },\r\n    \"WebhookRef\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1.7.3/WhCertificate/RequestByEmail",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1.7.3",
+								"WhCertificate",
+								"RequestByEmail"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RequestByEmail - Request with  WebhookRef as null",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accesstoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"SubmissionManifest\": null,\r\n    \"Requester\": {\r\n        \"BusinessId\": null,\r\n        \"PayerRef\": null\r\n    },\r\n    \"Recipients\": [\r\n        {\r\n            \"PayeeRef\": \"{{Payee_ref}}\",\r\n            \"Name\": \"Jordan Henry\",\r\n            \"Email\": \"jayashree.k+{{$randomInt}}@spantechnologyservices.com\"\r\n        }\r\n    ],\r\n    \"Customization\": {\r\n        \"BusinessLogoUrl\": null,\r\n        \"LogoPosition\": \"CENTER\",\r\n        \"InterviewFlow\": true,\r\n        \"PrimaryColor\": \"#1be6f5\",\r\n        \"SecondaryColor\": \"#9c9276\",\r\n        \"ShowDownloadPage\": true\r\n        \r\n    },\r\n    \"WebhookRef\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1.7.3/WhCertificate/RequestByEmail",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1.7.3",
+								"WhCertificate",
+								"RequestByEmail"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RequestByEmail - Request with  Webhook is invalid",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accesstoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"SubmissionManifest\": null,\r\n    \"Requester\": {\r\n        \"BusinessId\": null,\r\n        \"PayerRef\": null\r\n    },\r\n    \"Recipients\": [\r\n        {\r\n            \"PayeeRef\": \"{{Payee_ref}}\",\r\n            \"Name\": \"Jordan Henry\",\r\n            \"Email\": \"jayashree.k+{{$randomInt}}@spantechnologyservices.com\"\r\n        }\r\n    ],\r\n    \"Customization\": {\r\n        \"BusinessLogoUrl\": null,\r\n        \"LogoPosition\": \"CENTER\",\r\n        \"InterviewFlow\": true,\r\n        \"PrimaryColor\": \"#1be6f5\",\r\n        \"SecondaryColor\": \"#9c9276\",\r\n        \"ShowDownloadPage\": true\r\n        \r\n    },\r\n    \"WebhookRef\": \"3F1A5E55-D214-4C68-9C5D-BF79197DC9F4\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1.7.3/WhCertificate/RequestByEmail",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1.7.3",
+								"WhCertificate",
+								"RequestByEmail"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RequestByEmail - Request without Redirecturl object",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accesstoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"SubmissionManifest\": null,\r\n    \"Requester\": {\r\n        \"BusinessId\": null,\r\n        \"PayerRef\": null\r\n    },\r\n    \"Recipients\": [\r\n        {\r\n            \"PayeeRef\": \"{{Payee_ref}}\",\r\n            \"Name\": \"Jordan Henry\",\r\n            \"Email\": \"jayashree.k+{{$randomInt}}@spantechnologyservices.com\"\r\n        }\r\n    ],\r\n    \"Customization\": {\r\n        \"BusinessLogoUrl\": null,\r\n        \"LogoPosition\": \"CENTER\",\r\n        \"InterviewFlow\": true,\r\n        \"PrimaryColor\": \"#1be6f5\",\r\n        \"SecondaryColor\": \"#9c9276\",\r\n        \"ShowDownloadPage\": true\r\n        \r\n    },\r\n    \"WebhookRef\": \"3F1A5E55-D214-4C68-9C5D-BF79197DC9F3\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1.7.3/WhCertificate/RequestByEmail",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1.7.3",
+								"WhCertificate",
+								"RequestByEmail"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		}
 	]
 }
