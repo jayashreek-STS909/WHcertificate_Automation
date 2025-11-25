@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 // File paths
-const reportPath = path.join(__dirname, 'report.html');
+const reportPath = path.join(__dirname, 'reports', 'report.html');
 const jsonPath = path.join(__dirname, 'report.json');
 
 // Validate file existence
