@@ -3,7 +3,7 @@ name: Enhanced Newman API Tests
 on:
   workflow_dispatch:  # allows manual trigger
   schedule:
-   - cron: '30 0 * * *'  # every day at 10:30 AM IST
+   - cron: '0 2 * * *'  # every day at 10:30 AM IST
   push:
     branches: [ main ]
     paths: 
