@@ -1,9 +1,8 @@
 name: Enhanced Newman API Tests
-
 on:
   workflow_dispatch:  # allows manual trigger
   schedule:
-   - cron: '0 2 * * *'  # every day at 10:30 AM IST
+   - cron: '30 20 * * *'  # every day at 2:00 AM IST
   push:
     branches: [ main ]
     paths: 
@@ -12,25 +11,20 @@ on:
       - 'enhanced-runner.js'
       - 'lib/**'
       - 'config/**'
-
 jobs:
   run-tests:
     runs-on: ubuntu-latest
     timeout-minutes: 30
-
     steps:
       - name: ⬇️ Checkout Code
         uses: actions/checkout@v4
-
       - name: 🟢 Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
-
       - name: 📦 Install Dependencies
         run: npm ci
-
       - name: 🧪 Run Enhanced Newman Tests
         env:
           EMAIL_USER: ${{ secrets.EMAIL_USER }}
@@ -43,7 +37,6 @@ jobs:
           TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL }}
           NODE_ENV: production
         run: npm test
-
       - name: 📊 Upload Test Reports
         uses: actions/upload-artifact@v4
         if: always()
@@ -53,7 +46,6 @@ jobs:
             reports/
             data/
           retention-days: 30
-
       - name: 📈 Upload Historical Data
         uses: actions/upload-artifact@v4
         if: always()
