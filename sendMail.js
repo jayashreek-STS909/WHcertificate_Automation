@@ -1,27 +1,22 @@
 const nodemailer = require('nodemailer');
 const fs = require('fs');
 const path = require('path');
-
 // File paths
 const reportPath = path.join(__dirname, 'reports', 'report.html');
 const jsonPath = path.join(__dirname, 'report.json');
-
 // Validate file existence
 if (!fs.existsSync(reportPath) || !fs.existsSync(jsonPath)) {
   console.error("❌ Required report files not found.");
   process.exit(1);
 }
-
 // Read JSON report
 const jsonData = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
 const executions = jsonData.run.executions;
 const assertions = executions.flatMap(exec => exec.assertions || []);
-
 // Get test summary
 const totalTests = assertions.length;
 const failedTests = assertions.filter(a => a.error).length;
 const passedTests = totalTests - failedTests;
-
 // Group results by request name
 const grouped = {};
 executions.forEach(exec => {
@@ -32,7 +27,6 @@ executions.forEach(exec => {
     grouped[requestName].failed += exec.assertions.filter(a => a.error).length;
   }
 });
-
 // Generate table rows
 let rows = '';
 for (const [name, data] of Object.entries(grouped)) {
@@ -47,14 +41,11 @@ for (const [name, data] of Object.entries(grouped)) {
       <td class="${statusClass}">${status}</td>
     </tr>`;
 }
-
 // Extract dynamic form name from URL path
 let formTitle = 'API Test Report';
-
 if (executions.length >= 2) {
   const secondExec = executions[1];
   const fullUrl = secondExec.request?.url;
-
   if (fullUrl && fullUrl.path && Array.isArray(fullUrl.path)) {
     // Look for 'FormXXX' pattern in the path
     const match = fullUrl.path.find(p => /^Form\d{3,4}$/i.test(p));
@@ -63,7 +54,6 @@ if (executions.length >= 2) {
     }
   }
 }
-
 // Build HTML preview with dynamic title
 const htmlPreview = `
 <!DOCTYPE html>
@@ -108,7 +98,6 @@ const htmlPreview = `
   </div>
 </body>
 </html>`;
-
 // Create email transporter
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -117,11 +106,12 @@ const transporter = nodemailer.createTransport({
     pass: process.env.EMAIL_PASS || 'kioz gokp qzgj enll'
   }
 });
-
 // Email options
 const mailOptions = {
   from: process.env.EMAIL_USER || 'harishsanjay.a@spantechnologyservices.com',
   to: process.env.EMAIL_TO || 'dharaneesh.v@spantechnologyservices.com',
+  cc: process.env.EMAIL_CC || '',
+  bcc: process.env.EMAIL_BCC || '',
   subject: `${formTitle} - Newman API Automation Report`,
   html: htmlPreview,
   attachments: [
@@ -131,7 +121,6 @@ const mailOptions = {
     }
   ]
 };
-
 // Send email
 console.log("📤 Sending email with real-time report summary...");
 transporter.sendMail(mailOptions, (error, info) => {
